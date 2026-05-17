@@ -1316,20 +1316,19 @@ a.info-card--feature:hover {
     font-family: var(--font-display);
 }
 
-/* ---------- HONEYPOT ---------- */
-.honeypot { display: none !important; }
-@supports (position: absolute) {
-    /* Backup — even if "display:none" is bypassed, this keeps it off-screen. */
-    .honeypot {
-        display: block !important;
-        position: absolute !important;
-        left: -9999px !important;
-        width: 1px !important;
-        height: 1px !important;
-        overflow: hidden !important;
-        pointer-events: none;
-    }
+/* ---------- HONEYPOT ----------
+   Off-screen rather than display:none — some bots skip non-rendered fields,
+   so we keep it in the layout tree but invisible and unreachable. */
+.honeypot {
+    position: absolute !important;
+    left: -9999px !important;
+    top: auto;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    pointer-events: none;
 }
+.honeypot, .honeypot * { visibility: hidden; }
 
 /* ---------- CHECKBOX GRID (services field) ---------- */
 .field--checkboxes .field__label {
