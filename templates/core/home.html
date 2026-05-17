@@ -1,0 +1,737 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ SITE_NAME }} — Auto Detailing Premium em Portugal{% endblock %}
+{% block meta_description %}Auto detailing premium em Portugal. Correção de pintura, revestimento cerâmico, película de proteção. Marcação por avaliação presencial.{% endblock %}
+
+{% block content %}
+
+{# ============ HERO ============ #}
+<section class="hero" id="hero" aria-label="Apresentação">
+    <div class="hero__inner">
+        <div class="hero__wordmark" aria-label="{{ SITE_NAME }}">
+            <span class="hero__wordmark-main">MIDNIGHT</span>
+            <span class="hero__wordmark-sub">DETAILING</span>
+        </div>
+
+        <span class="eyebrow hero__eyebrow">Auto Detailing Premium · Lisboa</span>
+
+        <h1 class="hero__title">
+            O detalhe<br>
+            que <span class="mark">distingue</span>
+        </h1>
+
+        <p class="hero__tagline">
+            {% if SITE_TAGLINE %}{{ SITE_TAGLINE }}{% else %}
+            Correção de pintura, revestimento cerâmico e detalhe artesanal,
+            executados à mão sob luz controlada. Cada viatura é tratada como se fosse a única.
+            {% endif %}
+        </p>
+
+        <div class="hero__cta">
+            <a class="btn btn--primary" href="{% url 'core:contact' %}">
+                Marcar avaliação
+                <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+            {% if WHATSAPP_NUMBER %}
+            <a class="btn btn--whatsapp" href="https://wa.me/{{ WHATSAPP_NUMBER|cut:'+'|cut:' ' }}" target="_blank" rel="noopener">
+                WhatsApp
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3c-.8-1.3-1.3-2.9-1.3-4.4 0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.6 8.3-8 8.3z"/>
+                </svg>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <a class="hero__scroll" href="#pilares" aria-label="Continuar para baixo">
+        <span>Scroll</span>
+        <span class="hero__scroll-line" aria-hidden="true"></span>
+    </a>
+</section>
+
+
+{# ============ 3 PILARES — Proposta de Valor ============ #}
+<section class="section pillars" id="pilares" aria-labelledby="pilares-titulo">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">A Diferença</span>
+                <h2 class="section-head__title" id="pilares-titulo">
+                    Três pilares,<br>uma <span class="mark">obsessão</span>
+                </h2>
+            </div>
+            <p class="section-head__intro">
+                Aquilo que separa um detalhe excecional de um trabalho comum não está só
+                no resultado — está no processo, nos materiais e no critério.
+            </p>
+        </div>
+
+        <div class="pillars__grid">
+
+            <article class="pillar" data-reveal>
+                <div class="pillar__icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 3h6v4l4.5 9a3 3 0 0 1-2.7 4.5H7.2A3 3 0 0 1 4.5 16L9 7V3z"/>
+                        <path d="M9 7h6"/>
+                    </svg>
+                </div>
+                <h3 class="pillar__title">Materiais premium</h3>
+                <p class="pillar__text">
+                    Produtos certificados, exclusivamente de marcas de referência mundial.
+                    Sem atalhos no que toca à composição do trabalho.
+                </p>
+            </article>
+
+            <article class="pillar" data-reveal>
+                <div class="pillar__icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="7"/>
+                        <path d="M21 21l-4.3-4.3"/>
+                        <circle cx="11" cy="11" r="2" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h3 class="pillar__title">Detalhe obsessivo</h3>
+                <p class="pillar__text">
+                    Cada viatura é tratada como peça única. Inspeção sob luz controlada,
+                    acabamento à mão, zero atalhos. A perfeição não é negociável.
+                </p>
+            </article>
+
+            <article class="pillar" data-reveal>
+                <div class="pillar__icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3l8 3v6c0 5-3.4 8.4-8 9.5-4.6-1.1-8-4.5-8-9.5V6l8-3z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <h3 class="pillar__title">Garantia certificada</h3>
+                <p class="pillar__text">
+                    Resultados duradouros, com garantia profissional dos fabricantes.
+                    Transparência total no processo e nas expectativas.
+                </p>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+
+{# ============ PACOTES (3 TIERS) ============ #}
+<section class="section tiers" id="pacotes" aria-labelledby="pacotes-titulo">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">01 · Pacotes</span>
+                <h2 class="section-head__title" id="pacotes-titulo">
+                    Três níveis de <span class="mark">detalhe</span>
+                </h2>
+            </div>
+            <p class="section-head__intro">
+                Cada viatura recebe um cuidado proporcional ao seu carácter. Três pacotes,
+                construídos para que cada cliente encontre o ponto certo entre rigor e ambição.
+            </p>
+        </div>
+
+        <div class="tiers__grid" data-reveal>
+
+            {% for pacote in pacotes %}
+                <article class="tier {% if pacote.destaque %}tier--featured{% endif %}" aria-labelledby="tier-{{ pacote.tier }}">
+                    {% if pacote.destaque %}<span class="tier__badge">Mais popular</span>{% endif %}
+                    <span class="tier__eyebrow">{{ forloop.counter|stringformat:"02d" }} · {{ pacote.get_tier_display }}</span>
+                    <h3 class="tier__name" id="tier-{{ pacote.tier }}">{{ pacote.nome }}</h3>
+
+                    {% if pacote.preco_desde %}
+                        <p class="tier__price {% if 'consulta' in pacote.preco_desde|lower %}tier__price--quote{% else %}tier__price--from{% endif %}">
+                            {{ pacote.preco_desde }}
+                        </p>
+                    {% endif %}
+
+                    {% if pacote.descricao_curta %}
+                        <p class="tier__desc">{{ pacote.descricao_curta }}</p>
+                    {% endif %}
+
+                    <hr class="tier__divider" aria-hidden="true">
+
+                    <ul class="tier__list">
+                        {% for item in pacote.inclusoes.all %}
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            {{ item.descricao }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <a class="btn {% if pacote.destaque %}btn--primary{% endif %} tier__cta" href="{% url 'core:contact' %}?pacote={{ pacote.tier }}">
+                        Marcar avaliação
+                        <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                    </a>
+                </article>
+            {% empty %}
+                {# ===== Fallback estático (espelha o seed do backend) ===== #}
+
+                <article class="tier" aria-labelledby="tier-essential">
+                    <span class="tier__eyebrow">01 · Manutenção</span>
+                    <h3 class="tier__name" id="tier-essential">Essential</h3>
+                    <p class="tier__price tier__price--from"><span class="tier__price-prefix">desde</span>80&nbsp;€</p>
+                    <p class="tier__desc">
+                        Detalhe regular para quem prefere manter a viatura impecável ao longo do ano.
+                    </p>
+                    <hr class="tier__divider" aria-hidden="true">
+                    <ul class="tier__list">
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Lavagem manual exterior detalhada
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Descontaminação química
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Aspiração e limpeza interior completa
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Limpeza e tratamento de vidros
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Dressing de plásticos exteriores
+                        </li>
+                    </ul>
+                    <a class="btn tier__cta" href="{% url 'core:contact' %}?pacote=essential">
+                        Marcar avaliação
+                        <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                    </a>
+                </article>
+
+                <article class="tier tier--featured" aria-labelledby="tier-signature">
+                    <span class="tier__badge">Mais popular</span>
+                    <span class="tier__eyebrow">02 · Detalhe Completo</span>
+                    <h3 class="tier__name" id="tier-signature">Signature</h3>
+                    <p class="tier__price tier__price--from"><span class="tier__price-prefix">desde</span>180&nbsp;€</p>
+                    <p class="tier__desc">
+                        Pacote de referência: descontaminação a fundo, clay bar, polimento de
+                        manutenção e selante de longa duração.
+                    </p>
+                    <hr class="tier__divider" aria-hidden="true">
+                    <ul class="tier__list">
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tudo o que inclui <em class="mark">Essential</em>
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Descontaminação física com clay bar
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Polimento de manutenção
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Selante de cera de longa duração
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Higienização profunda de interior
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tratamento de couro / estofos
+                        </li>
+                    </ul>
+                    <a class="btn btn--primary tier__cta" href="{% url 'core:contact' %}?pacote=signature">
+                        Marcar avaliação
+                        <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                    </a>
+                </article>
+
+                <article class="tier" aria-labelledby="tier-midnight">
+                    <span class="tier__eyebrow">03 · Concours</span>
+                    <h3 class="tier__name" id="tier-midnight">Midnight</h3>
+                    <p class="tier__price tier__price--quote">Sob consulta</p>
+                    <p class="tier__desc">
+                        Programa flagship. Correção de pintura, proteção cerâmica certificada
+                        e tratamentos especializados. Cada serviço é avaliado individualmente.
+                    </p>
+                    <hr class="tier__divider" aria-hidden="true">
+                    <ul class="tier__list">
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tudo o que inclui <em class="mark">Signature</em>
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Correção de pintura em 1 a 3 fases
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Proteção cerâmica certificada
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Higienização com ozono
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Restauro de faróis
+                        </li>
+                        <li class="tier__item">
+                            <svg class="tier__item-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Avaliação personalizada antes de cada serviço
+                        </li>
+                    </ul>
+                    <a class="btn tier__cta" href="{% url 'core:contact' %}?pacote=midnight">
+                        Marcar avaliação
+                        <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                    </a>
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+        <p data-reveal style="text-align: center; margin: var(--s-7) auto 0; max-width: 56ch; font-size: var(--t-sm); color: var(--fg-dim);">
+            Pedidos específicos — PPF, restauro de farol, detalhe de motor —
+            <a href="{% url 'core:contact' %}" style="color: var(--c-champagne); border-bottom: 1px solid currentColor;">avaliação sob marcação</a>.
+        </p>
+    </div>
+</section>
+
+
+{# ============ ANTES / DEPOIS ============ #}
+<section class="section beforeafter" id="trabalho" aria-labelledby="ba-titulo">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">02 · Transformação</span>
+                <h2 class="section-head__title" id="ba-titulo">
+                    Antes <span class="mark">/</span> depois
+                </h2>
+            </div>
+            <p class="section-head__intro">
+                Mover o cursor revela a transformação. Resultados reais após correção
+                de pintura e revestimento cerâmico.
+            </p>
+        </div>
+
+        <div class="compare" data-compare data-reveal>
+            <div class="compare__pane compare__pane--before" aria-hidden="true"></div>
+            <div class="compare__pane compare__pane--after" data-compare-after aria-hidden="true"></div>
+            <span class="compare__label compare__label--before">Antes</span>
+            <span class="compare__label compare__label--after">Depois</span>
+            <div class="compare__handle" data-compare-handle aria-hidden="true"></div>
+            <div class="compare__knob" data-compare-knob aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 7L3 12l5 5M16 7l5 5-5 5"/></svg>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ============ PROCESSO ============ #}
+<section class="section process" id="processo" aria-labelledby="processo-titulo">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">03 · Processo</span>
+                <h2 class="section-head__title" id="processo-titulo">
+                    Quatro passos.<br>Zero <span class="mark">atalhos</span>.
+                </h2>
+            </div>
+            <p class="section-head__intro">
+                Tudo começa por uma avaliação presencial. A partir daí, cada etapa
+                é executada sem pressa e documentada com fotografia.
+            </p>
+        </div>
+
+        <div class="process__grid" data-reveal>
+            <div class="step">
+                <span class="step__num">01</span>
+                <h3 class="step__title">Avaliação</h3>
+                <p class="step__text">
+                    Inspeção visual sob luz controlada. Identificação de defeitos
+                    e definição do pacote adequado.
+                </p>
+            </div>
+            <div class="step">
+                <span class="step__num">02</span>
+                <h3 class="step__title">Preparação</h3>
+                <p class="step__text">
+                    Pré-lavagem, descontaminação química e mecânica. A base tem
+                    de estar perfeita antes de qualquer trabalho.
+                </p>
+            </div>
+            <div class="step">
+                <span class="step__num">03</span>
+                <h3 class="step__title">Execução</h3>
+                <p class="step__text">
+                    Correção e proteção, à mão, com pausas de inspeção sob luz LED.
+                    Vários dias se necessário — sem pressa.
+                </p>
+            </div>
+            <div class="step">
+                <span class="step__num">04</span>
+                <h3 class="step__title">Entrega</h3>
+                <p class="step__text">
+                    Inspeção final, fotografia profissional, instruções de manutenção
+                    e garantia em mão.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ============ SOBRE / FILOSOFIA ============ #}
+<section class="section philosophy" id="sobre" aria-labelledby="sobre-titulo">
+    <div class="container">
+        <div class="philosophy__grid">
+            <div data-reveal>
+                <span class="eyebrow">04 · Filosofia</span>
+                <h2 class="philosophy__title" id="sobre-titulo">
+                    Cada viatura recebe um<br>tratamento <span class="mark">artesanal</span>
+                </h2>
+                <hr class="rule">
+                <p>
+                    Materiais premium, métodos meticulosos, padrão obsessivo. Em Lisboa,
+                    para quem reconhece a diferença que está nos detalhes invisíveis ao olhar comum.
+                </p>
+                <p>
+                    A Midnight Detailing nasceu de uma convicção simples: um automóvel
+                    excecional merece um cuidado excecional. Sob a luz controlada do estúdio,
+                    cada painel é inspecionado, corrigido e protegido com a paciência de quem
+                    sabe que a perfeição não é negociável.
+                </p>
+            </div>
+
+            <div class="philosophy__stats" data-reveal>
+                <div class="stat"><div class="stat__num">200+</div><div class="stat__label">Viaturas detalhadas</div></div>
+                <div class="stat"><div class="stat__num">5★</div><div class="stat__label">Classificação média</div></div>
+                <div class="stat"><div class="stat__num">9H</div><div class="stat__label">Dureza cerâmica</div></div>
+                <div class="stat"><div class="stat__num">∞</div><div class="stat__label">Obsessão pelo detalhe</div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{# ============ TESTEMUNHOS ============ #}
+<section class="section testimonials" id="testemunhos" aria-labelledby="testi-titulo">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">05 · Clientes</span>
+                <h2 class="section-head__title" id="testi-titulo">
+                    A palavra de quem confia<br>a viatura à Midnight
+                </h2>
+            </div>
+        </div>
+
+        <div class="testi-grid">
+            {% for t in testemunhos %}
+                <article class="testi" data-reveal>
+                    <div class="testi__mark" aria-hidden="true">&ldquo;</div>
+                    <p class="testi__text">{{ t.texto }}</p>
+                    {% if t.avaliacao %}
+                    <div class="testi__stars" aria-label="{{ t.avaliacao }} de 5 estrelas">
+                        {% for _ in ""|center:t.avaliacao %}<span aria-hidden="true">&#9733;</span>{% endfor %}
+                    </div>
+                    {% endif %}
+                    <div class="testi__author">
+                        <span class="testi__name">{{ t.nome }}</span>
+                        <span class="testi__car">{{ t.viatura }}</span>
+                    </div>
+                </article>
+            {% empty %}
+                <article class="testi" data-reveal>
+                    <div class="testi__mark" aria-hidden="true">&ldquo;</div>
+                    <p class="testi__text">
+                        Um nível de detalhe que não encontrei em mais nenhum sítio em Lisboa.
+                    </p>
+                    <div class="testi__author">
+                        <span class="testi__name">Carlos M.</span>
+                        <span class="testi__car">Porsche 911</span>
+                    </div>
+                </article>
+
+                <article class="testi" data-reveal>
+                    <div class="testi__mark" aria-hidden="true">&ldquo;</div>
+                    <p class="testi__text">
+                        Recebi o carro como se tivesse acabado de sair do stand. Profissionalismo absoluto.
+                    </p>
+                    <div class="testi__author">
+                        <span class="testi__name">Sofia R.</span>
+                        <span class="testi__car">BMW M3 Competition</span>
+                    </div>
+                </article>
+
+                <article class="testi" data-reveal>
+                    <div class="testi__mark" aria-hidden="true">&ldquo;</div>
+                    <p class="testi__text">
+                        Atenção ao pormenor incomparável. Já fidelizado.
+                    </p>
+                    <div class="testi__author">
+                        <span class="testi__name">André P.</span>
+                        <span class="testi__car">Mercedes-AMG GT</span>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        <div class="brands" data-reveal>
+            <span class="brands__label">Marcas que já passaram pelo estúdio</span>
+            <span class="brand">Porsche</span>
+            <span class="brand">Mercedes-AMG</span>
+            <span class="brand">BMW M</span>
+            <span class="brand">Audi RS</span>
+            <span class="brand">Range Rover</span>
+            <span class="brand">Ferrari</span>
+            <span class="brand">Lamborghini</span>
+            <span class="brand">Tesla</span>
+        </div>
+    </div>
+</section>
+
+
+{# ============ FAQ ============ #}
+<section class="section faq" id="faq" aria-labelledby="faq-titulo">
+    <div class="container container--narrow">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">06 · FAQ</span>
+                <h2 class="section-head__title" id="faq-titulo">
+                    Perguntas <span class="mark">frequentes</span>
+                </h2>
+            </div>
+        </div>
+
+        <div class="faq__list" data-reveal>
+            <details class="faq__item" open>
+                <summary class="faq__trigger">
+                    Quanto tempo demora cada pacote?
+                    <span class="faq__icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq__panel">
+                    Essential demora cerca de 1 dia. Signature requer 1 a 2 dias. Midnight
+                    pode levar 2 a 5 dias, consoante o estado da viatura e o nível de
+                    correção necessário.
+                </div>
+            </details>
+
+            <details class="faq__item">
+                <summary class="faq__trigger">
+                    Quanto tempo dura a proteção cerâmica?
+                    <span class="faq__icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq__panel">
+                    Tipicamente entre 2 e 5 anos, com manutenção semestral recomendada.
+                    Os sistemas certificados vêm com garantia profissional do fabricante.
+                </div>
+            </details>
+
+            <details class="faq__item">
+                <summary class="faq__trigger">
+                    É possível recolha e entrega?
+                    <span class="faq__icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq__panel">
+                    Sim, em toda a área de Lisboa. Sob avaliação prévia e sem custo
+                    adicional para pacotes Signature e Midnight.
+                </div>
+            </details>
+
+            <details class="faq__item">
+                <summary class="faq__trigger">
+                    Como é feito o pagamento?
+                    <span class="faq__icon" aria-hidden="true"></span>
+                </summary>
+                <div class="faq__panel">
+                    Multibanco, transferência bancária ou pagamento faseado disponível
+                    para o pacote Midnight. A fatura é emitida no momento da entrega.
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+
+{# ============ CONTACTO / MARCAÇÃO ============ #}
+<section class="section contact" id="contacto" aria-labelledby="contacto-titulo">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">07 · Reservar</span>
+                <h2 class="section-head__title" id="contacto-titulo">
+                    Pronto para o detalhe<br>que <span class="mark">distingue</span>?
+                </h2>
+            </div>
+            <p class="section-head__intro">
+                Avaliação personalizada. Orçamento por escrito. Sem compromisso.
+            </p>
+        </div>
+
+        <div class="contact__grid">
+            <form data-reveal
+                  data-contact-form
+                  method="post"
+                  action="{% url 'core:pedido_contacto' %}"
+                  novalidate>
+                {% csrf_token %}
+
+                <div class="form__alert form__alert--success" data-form-success hidden>
+                    Pedido recebido. Resposta em menos de 24 horas úteis.
+                </div>
+                <div class="form__alert form__alert--error" data-form-error hidden>
+                    Não foi possível enviar o pedido. Verifique os campos e tente novamente.
+                </div>
+
+                {% if form %}
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                        <div class="field">
+                            <label class="field__label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.help_text %}<span class="field__help">{{ field.help_text }}</span>{% endif %}
+                            {% if field.errors %}<span class="field__error">{{ field.errors|join:", " }}</span>{% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    {# Fallback caso a view ainda não esteja a passar form. #}
+                    <div class="field">
+                        <label class="field__label" for="f-nome">Nome</label>
+                        <input class="field__input" type="text" id="f-nome" name="nome" placeholder="Nome completo" required>
+                    </div>
+                    <div class="field">
+                        <label class="field__label" for="f-email">Email</label>
+                        <input class="field__input" type="email" id="f-email" name="email" placeholder="email@exemplo.pt" required>
+                    </div>
+                    <div class="field">
+                        <label class="field__label" for="f-telefone">Telemóvel</label>
+                        <input class="field__input" type="tel" id="f-telefone" name="telefone" placeholder="+351 ...">
+                    </div>
+                    <div class="field">
+                        <label class="field__label" for="f-viatura">Viatura</label>
+                        <input class="field__input" type="text" id="f-viatura" name="viatura" placeholder="Marca, modelo e ano">
+                    </div>
+                    <div class="field">
+                        <label class="field__label" for="f-pacote">Pacote pretendido</label>
+                        <select class="field__select" id="f-pacote" name="pacote">
+                            <option value="">Selecionar um pacote</option>
+                            <option value="essential">Essential — desde 80€</option>
+                            <option value="signature">Signature — desde 180€</option>
+                            <option value="midnight">Midnight — sob consulta</option>
+                            <option value="custom">Pedido específico</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label class="field__label" for="f-mensagem">Notas</label>
+                        <textarea class="field__textarea" id="f-mensagem" name="mensagem" placeholder="Notas sobre a viatura e o tratamento pretendido."></textarea>
+                    </div>
+                {% endif %}
+
+                <button class="btn btn--primary" type="submit">
+                    Enviar pedido
+                    <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                </button>
+            </form>
+
+            <aside class="contact__aside" data-reveal>
+                {% if WHATSAPP_NUMBER %}
+                <a class="info-card info-card--feature" href="https://wa.me/{{ WHATSAPP_NUMBER|cut:'+'|cut:' ' }}" target="_blank" rel="noopener">
+                    <span class="info-card__label">WhatsApp · resposta mais rápida</span>
+                    <span class="info-card__value">{{ WHATSAPP_NUMBER }}</span>
+                </a>
+                {% endif %}
+
+                {% if BUSINESS_PHONE %}
+                <a class="info-card" href="tel:{{ BUSINESS_PHONE }}">
+                    <span class="info-card__label">Telefone</span>
+                    <span class="info-card__value">{{ BUSINESS_PHONE }}</span>
+                </a>
+                {% endif %}
+
+                <a class="info-card" href="mailto:{{ CONTACT_EMAIL|default:'info@midnightdetailing.pt' }}">
+                    <span class="info-card__label">Email</span>
+                    <span class="info-card__value">{{ CONTACT_EMAIL|default:'info@midnightdetailing.pt' }}</span>
+                </a>
+
+                <div class="info-card">
+                    <span class="info-card__label">Estúdio</span>
+                    <span class="info-card__value">Lisboa e arredores<br><span class="muted" style="font-size: var(--t-sm);">Visitas apenas com marcação</span></span>
+                </div>
+
+                <div class="info-card">
+                    <span class="info-card__label">Horário</span>
+                    <span class="info-card__value">Seg–Sáb · 10h–19h<br><span class="muted" style="font-size: var(--t-sm);">Domingo encerrado</span></span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+    const form = document.querySelector('[data-contact-form]');
+    if (!form) return;
+
+    const successEl = form.querySelector('[data-form-success]');
+    const errorEl   = form.querySelector('[data-form-error]');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    const clearFieldErrors = () => {
+        form.querySelectorAll('.field__error--ajax').forEach((el) => el.remove());
+        form.querySelectorAll('.field--has-error').forEach((el) => el.classList.remove('field--has-error'));
+    };
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearFieldErrors();
+        successEl.hidden = true;
+        errorEl.hidden = true;
+        submitBtn.disabled = true;
+
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                credentials: 'same-origin',
+            });
+            const data = await res.json().catch(() => ({}));
+
+            if (res.ok && data.ok) {
+                form.reset();
+                successEl.hidden = false;
+                successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                errorEl.hidden = false;
+                if (data && data.errors) {
+                    Object.entries(data.errors).forEach(([name, messages]) => {
+                        const input = form.querySelector(`[name="${name}"]`);
+                        if (!input) return;
+                        const field = input.closest('.field');
+                        if (field) {
+                            field.classList.add('field--has-error');
+                            const note = document.createElement('span');
+                            note.className = 'field__error field__error--ajax';
+                            note.textContent = Array.isArray(messages) ? messages.join(', ') : String(messages);
+                            field.appendChild(note);
+                        }
+                    });
+                }
+            }
+        } catch (_) {
+            errorEl.hidden = false;
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+})();
+</script>
+{% endblock %}

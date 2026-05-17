@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Marcar avaliação · {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Marcar avaliação na {{ SITE_NAME }}. Avaliação personalizada, orçamento por escrito, sem compromisso.{% endblock %}
+
+{% block content %}
+
+<section class="section contact contact--standalone" id="contacto" aria-labelledby="contacto-titulo">
+    <div class="container">
+        <div class="section-head" data-reveal>
+            <div>
+                <span class="eyebrow">Marcação</span>
+                <h1 class="section-head__title" id="contacto-titulo">
+                    Marcar <span class="mark">avaliação</span>
+                </h1>
+            </div>
+            <p class="section-head__intro">
+                Avaliação personalizada. Orçamento por escrito. Sem compromisso.<br>
+                Resposta em menos de 24 horas úteis.
+            </p>
+        </div>
+
+        <div class="contact__grid">
+
+            <form method="post"
+                  action="{% url 'core:contact' %}"
+                  novalidate
+                  data-reveal
+                  data-contact-form>
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                <div class="form__alert form__alert--error">
+                    {{ form.non_field_errors }}
+                </div>
+                {% endif %}
+
+                <div class="form__alert form__alert--success" data-form-success hidden>
+                    Pedido recebido. Resposta em menos de 24 horas úteis.
+                </div>
+                <div class="form__alert form__alert--error" data-form-error hidden>
+                    Não foi possível enviar o pedido. Verifique os campos e tente novamente.
+                </div>
+
+                {# Honeypot — escondido tanto pelo widget como pelo wrapper. #}
+                <div class="honeypot" aria-hidden="true">
+                    <label for="{{ form.website.id_for_label }}">Não preencher</label>
+                    {{ form.website }}
+                </div>
+
+                <div class="field {% if form.nome.errors %}field--has-error{% endif %}">
+                    <label class="field__label" for="{{ form.nome.id_for_label }}">{{ form.nome.label }}</label>
+                    {{ form.nome }}
+                    {% if form.nome.help_text %}<span class="field__help">{{ form.nome.help_text }}</span>{% endif %}
+                    {% if form.nome.errors %}<span class="field__error">{{ form.nome.errors|join:", " }}</span>{% endif %}
+                </div>
+
+                <div class="field {% if form.email.errors %}field--has-error{% endif %}">
+                    <label class="field__label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+                    {{ form.email }}
+                    {% if form.email.help_text %}<span class="field__help">{{ form.email.help_text }}</span>{% endif %}
+                    {% if form.email.errors %}<span class="field__error">{{ form.email.errors|join:", " }}</span>{% endif %}
+                </div>
+
+                <div class="field {% if form.telefone.errors %}field--has-error{% endif %}">
+                    <label class="field__label" for="{{ form.telefone.id_for_label }}">{{ form.telefone.label }}</label>
+                    {{ form.telefone }}
+                    {% if form.telefone.help_text %}<span class="field__help">{{ form.telefone.help_text }}</span>{% endif %}
+                    {% if form.telefone.errors %}<span class="field__error">{{ form.telefone.errors|join:", " }}</span>{% endif %}
+                </div>
+
+                <div class="field {% if form.viatura.errors %}field--has-error{% endif %}">
+                    <label class="field__label" for="{{ form.viatura.id_for_label }}">{{ form.viatura.label }}</label>
+                    {{ form.viatura }}
+                    {% if form.viatura.help_text %}<span class="field__help">{{ form.viatura.help_text }}</span>{% endif %}
+                    {% if form.viatura.errors %}<span class="field__error">{{ form.viatura.errors|join:", " }}</span>{% endif %}
+                </div>
+
+                <div class="field {% if form.pacote_interesse.errors %}field--has-error{% endif %}">
+                    <label class="field__label" for="{{ form.pacote_interesse.id_for_label }}">{{ form.pacote_interesse.label }}</label>
+                    {{ form.pacote_interesse }}
+                    {% if form.pacote_interesse.help_text %}<span class="field__help">{{ form.pacote_interesse.help_text }}</span>{% endif %}
+                    {% if form.pacote_interesse.errors %}<span class="field__error">{{ form.pacote_interesse.errors|join:", " }}</span>{% endif %}
+                </div>
+
+                <div class="field {% if form.mensagem.errors %}field--has-error{% endif %}">
+                    <label class="field__label" for="{{ form.mensagem.id_for_label }}">{{ form.mensagem.label }}</label>
+                    {{ form.mensagem }}
+                    {% if form.mensagem.help_text %}<span class="field__help">{{ form.mensagem.help_text }}</span>{% endif %}
+                    {% if form.mensagem.errors %}<span class="field__error">{{ form.mensagem.errors|join:", " }}</span>{% endif %}
+                </div>
+
+                <button class="btn btn--primary" type="submit">
+                    Enviar pedido
+                    <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                </button>
+            </form>
+
+            <aside class="contact__aside" data-reveal>
+                <p class="contact__intro muted" style="margin-bottom: var(--s-5);">
+                    Para resposta imediata, WhatsApp é o canal mais rápido. Em alternativa, telefone ou email.
+                </p>
+
+                {% if WHATSAPP_NUMBER %}
+                <a class="info-card info-card--feature" href="https://wa.me/{{ WHATSAPP_NUMBER|cut:'+'|cut:' ' }}" target="_blank" rel="noopener">
+                    <span class="info-card__label">WhatsApp · resposta mais rápida</span>
+                    <span class="info-card__value">{{ WHATSAPP_NUMBER }}</span>
+                </a>
+                {% endif %}
+
+                {% if BUSINESS_PHONE %}
+                <a class="info-card" href="tel:{{ BUSINESS_PHONE }}">
+                    <span class="info-card__label">Telefone</span>
+                    <span class="info-card__value">{{ BUSINESS_PHONE }}</span>
+                </a>
+                {% endif %}
+
+                <a class="info-card" href="mailto:{{ CONTACT_EMAIL|default:'info@midnightdetailing.pt' }}">
+                    <span class="info-card__label">Email</span>
+                    <span class="info-card__value">{{ CONTACT_EMAIL|default:'info@midnightdetailing.pt' }}</span>
+                </a>
+
+                <div class="info-card">
+                    <span class="info-card__label">Estúdio</span>
+                    <span class="info-card__value">Lisboa e arredores<br><span class="muted" style="font-size: var(--t-sm);">Visitas apenas com marcação</span></span>
+                </div>
+
+                <div class="info-card">
+                    <span class="info-card__label">Horário</span>
+                    <span class="info-card__value">Seg–Sáb · 10h–19h<br><span class="muted" style="font-size: var(--t-sm);">Domingo encerrado</span></span>
+                </div>
+            </aside>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+(function () {
+    // Pre-select pacote from ?pacote=<tier> query param (e.g. when arriving from a tier CTA).
+    const params = new URLSearchParams(window.location.search);
+    const pacote = params.get('pacote');
+    if (pacote) {
+        const select = document.querySelector('select[name="pacote_interesse"]');
+        if (select) {
+            const target = Array.from(select.options).find(
+                (o) => (o.value || '').toLowerCase() === pacote.toLowerCase()
+            );
+            if (target) select.value = target.value;
+        }
+    }
+
+    // Optional AJAX submit — POST normal continua a funcionar se algo falhar.
+    const form = document.querySelector('[data-contact-form]');
+    if (!form) return;
+
+    const successEl = form.querySelector('[data-form-success]');
+    const errorEl   = form.querySelector('[data-form-error]');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const ajaxUrl   = '{% url "core:pedido_contacto" %}';
+
+    const getCsrfToken = () => {
+        const input = form.querySelector('[name="csrfmiddlewaretoken"]');
+        return input ? input.value : '';
+    };
+
+    const clearFieldErrors = () => {
+        form.querySelectorAll('.field__error--ajax').forEach((el) => el.remove());
+        form.querySelectorAll('.field--has-error').forEach((el) => el.classList.remove('field--has-error'));
+    };
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearFieldErrors();
+        if (successEl) successEl.hidden = true;
+        if (errorEl) errorEl.hidden = true;
+        submitBtn.disabled = true;
+
+        try {
+            const res = await fetch(ajaxUrl, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'X-CSRFToken': getCsrfToken(), 'X-Requested-With': 'XMLHttpRequest' },
+                credentials: 'same-origin',
+            });
+            const data = await res.json().catch(() => ({}));
+
+            if (res.ok && data.ok) {
+                form.reset();
+                if (successEl) {
+                    successEl.hidden = false;
+                    successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            } else {
+                if (errorEl) errorEl.hidden = false;
+                if (data && data.errors) {
+                    Object.entries(data.errors).forEach(([name, messages]) => {
+                        const input = form.querySelector(`[name="${name}"]`);
+                        if (!input) return;
+                        const field = input.closest('.field');
+                        if (!field) return;
+                        field.classList.add('field--has-error');
+                        const note = document.createElement('span');
+                        note.className = 'field__error field__error--ajax';
+                        note.textContent = Array.isArray(messages) ? messages.join(', ') : String(messages);
+                        field.appendChild(note);
+                    });
+                }
+            }
+        } catch (_) {
+            if (errorEl) errorEl.hidden = false;
+        } finally {
+            submitBtn.disabled = false;
+        }
+    });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pedido recebido · {{ SITE_NAME }}{% endblock %}
+{% block meta_description %}Pedido recebido. A {{ SITE_NAME }} responde em menos de 24 horas úteis.{% endblock %}
+
+{% block content %}
+
+<section class="section thanks" aria-labelledby="thanks-titulo">
+    <div class="container container--narrow" style="text-align: center;">
+
+        <div data-reveal style="display: flex; flex-direction: column; align-items: center;">
+
+            <div class="thanks__seal" aria-hidden="true">
+                <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="64" height="64">
+                    <circle cx="32" cy="32" r="28"/>
+                    <path d="M20 33l8 8 16-18"/>
+                </svg>
+            </div>
+
+            <span class="eyebrow" style="margin-top: var(--s-6);">Recebido</span>
+
+            <h1 class="thanks__title" id="thanks-titulo">
+                Pedido <span class="mark">registado</span>
+            </h1>
+
+            <hr class="rule" style="margin-inline: auto;">
+
+            <p class="lead" style="text-align: center;">
+                Obrigado pelo contacto. Cada pedido é tratado com atenção — a equipa da
+                {{ SITE_NAME }} responde tipicamente em menos de 24 horas úteis.
+            </p>
+
+            <p class="muted" style="text-align: center;">
+                Para acelerar a marcação, fala diretamente pelo canal preferencial:
+            </p>
+
+            <div class="thanks__cta">
+                {% if WHATSAPP_NUMBER %}
+                <a class="btn btn--whatsapp" href="https://wa.me/{{ WHATSAPP_NUMBER|cut:'+'|cut:' ' }}" target="_blank" rel="noopener">
+                    WhatsApp
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3c-.8-1.3-1.3-2.9-1.3-4.4 0-4.5 3.7-8.2 8.2-8.2s8.2 3.7 8.2 8.2-3.6 8.3-8 8.3z"/>
+                    </svg>
+                </a>
+                {% endif %}
+                <a class="btn" href="{% url 'core:home' %}">
+                    Voltar ao início
+                    <span class="btn__arrow" aria-hidden="true">&rarr;</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

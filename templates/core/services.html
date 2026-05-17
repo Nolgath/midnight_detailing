@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Serviços</h1>
+{% if pacotes %}
+    <ul>
+    {% for pacote in pacotes %}
+        <li>{{ pacote.nome }} — {{ pacote.preco_desde }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Em breve.</p>
+{% endif %}
+{% endblock %}
