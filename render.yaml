@@ -10,7 +10,7 @@ services:
     runtime: python
     plan: free
     region: frankfurt
-    buildCommand: "./build.sh"
+    buildCommand: "bash build.sh"
     startCommand: "gunicorn midnight.wsgi:application"
     autoDeploy: true
     healthCheckPath: /
