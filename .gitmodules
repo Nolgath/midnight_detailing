@@ -1,0 +1,3 @@
+[submodule "toolkit/awesome-claude-code"]
+	path = toolkit/awesome-claude-code
+	url = https://github.com/hesreallyhim/awesome-claude-code.git

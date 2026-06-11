@@ -40,3 +40,10 @@ midnight-*.png
 midnight-*.jpg
 django-*.jpg
 django-*.png
+
+# Verification screenshots (local only)
+navbar.png
+home-*.png
+servicos*.png
+addons-*.png
+precario2.png

@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Preçário 2 · Midnight Detailing</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0A0A0A;
+            --panel: #131313;
+            --panel-2: #181818;
+            --fg: #FFFFFF;
+            --fg-dim: #9A9A9A;
+            --fg-faint: #6A6A6A;
+            --line: rgba(255, 255, 255, 0.10);
+            --line-soft: rgba(255, 255, 255, 0.06);
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; }
+
+        /* ---------- Liquid background ---------- */
+        .bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(90px); will-change: transform; }
+        .blob--1 {
+            width: 48vw; height: 48vw; left: -10vw; top: -12vh;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.27), rgba(255, 255, 255, 0) 70%);
+            animation: drift1 16s ease-in-out infinite alternate;
+        }
+        .blob--2 {
+            width: 54vw; height: 54vw; right: -14vw; top: 14vh;
+            background: radial-gradient(circle at 60% 40%, rgba(215, 215, 215, 0.22), rgba(255, 255, 255, 0) 70%);
+            animation: drift2 20s ease-in-out infinite alternate;
+        }
+        .blob--3 {
+            width: 40vw; height: 40vw; left: 28vw; bottom: -20vh;
+            background: radial-gradient(circle at 50% 50%, rgba(235, 235, 235, 0.20), rgba(255, 255, 255, 0) 70%);
+            animation: drift3 23s ease-in-out infinite alternate;
+        }
+        @keyframes drift1 { from { transform: translate(-5vw, -4vh) scale(1); } to { transform: translate(17vw, 13vh) scale(1.3); } }
+        @keyframes drift2 { from { transform: translate(5vw, -3vh) scale(1.12); } to { transform: translate(-16vw, 12vh) scale(0.85); } }
+        @keyframes drift3 { from { transform: translate(0, 5vh) scale(1); } to { transform: translate(13vw, -15vh) scale(1.32); } }
+        @media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
+        main { position: relative; z-index: 1; }
+
+        /* ---------- Navbar ---------- */
+        .navbar {
+            position: sticky; top: 0; z-index: 50;
+            background: rgba(10, 10, 10, 0.72);
+            backdrop-filter: saturate(140%) blur(14px);
+            -webkit-backdrop-filter: saturate(140%) blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+        .navbar__inner { max-width: 1280px; margin: 0 auto; padding: 22px 40px; display: flex; align-items: center; justify-content: space-between; }
+        .navbar__brand { display: inline-flex; align-items: baseline; gap: 8px; text-decoration: none; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.02em; }
+        .navbar__brand-main { font-size: 18px; text-transform: uppercase; }
+        .navbar__brand-sub { font-size: 18px; font-weight: 500; text-transform: uppercase; color: var(--fg-dim); }
+        .nav { display: flex; align-items: center; gap: 36px; }
+        .nav__link { position: relative; text-decoration: none; color: var(--fg-dim); font-size: 15px; transition: color 0.25s ease; }
+        .nav__link::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px; background: var(--fg); transition: width 0.28s ease; }
+        .nav__link:hover { color: var(--fg); }
+        .nav__link:hover::after { width: 100%; }
+        .nav__link--active { color: var(--fg); }
+
+        /* ---------- Layout ---------- */
+        .wrap { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+        .page-head { padding: 96px 0 56px; }
+        .eyebrow { display: inline-block; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-faint); margin-bottom: 20px; }
+        .page-head__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 7vw, 80px); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 22px; }
+        .page-head__intro { max-width: 56ch; color: var(--fg-dim); font-size: 17px; line-height: 1.65; font-weight: 300; margin: 0; }
+
+        /* ---------- Segment pills ---------- */
+        .segments { display: flex; flex-wrap: wrap; gap: 12px; margin: 40px 0 8px; }
+        .segment { font-family: var(--font-body); font-size: 14px; color: var(--fg-dim); padding: 11px 22px; border: 1px solid var(--line); border-radius: 999px; background: transparent; cursor: pointer; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+        .segment:hover { color: var(--fg); border-color: rgba(255, 255, 255, 0.26); }
+        .segment.is-selected { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+        .segment:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+        .segments__note { color: var(--fg-faint); font-size: 13px; margin: 16px 0 0; }
+
+        /* ---------- Section heads ---------- */
+        .section { padding: 56px 0; }
+        .section__label { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-faint); margin: 0 0 10px; }
+        .section__title { font-family: var(--font-display); font-weight: 600; font-size: clamp(26px, 3.6vw, 38px); letter-spacing: -0.01em; margin: 0 0 40px; }
+
+        /* ---------- Plan cards ---------- */
+        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .plan { position: relative; background: var(--panel); border: 1px solid var(--line-soft); border-radius: 18px; padding: 32px 30px; display: flex; flex-direction: column; cursor: pointer; transition: border-color .22s ease, box-shadow .22s ease; }
+        .plan:hover { border-color: var(--line); }
+        .plan.is-selected { border-color: var(--fg); box-shadow: 0 0 0 1px var(--fg); }
+        .plan__name { font-family: var(--font-display); font-weight: 600; font-size: 22px; margin: 0 0 14px; }
+        .plan__price { font-family: var(--font-display); font-weight: 700; font-size: 44px; line-height: 1; margin: 0 0 4px; }
+        .plan__price.is-quote { font-size: 24px; letter-spacing: 0.01em; }
+        .plan__duration { color: var(--fg-faint); font-size: 13px; margin: 0 0 24px; }
+        .plan__divider { border: none; border-top: 1px solid var(--line-soft); margin: 0 0 20px; }
+        .plan__desc { color: var(--fg-dim); font-size: 14.5px; line-height: 1.55; font-weight: 300; margin: 0 0 30px; }
+        .plan__cta { align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; cursor: pointer; font-family: var(--font-body); font-size: 15px; color: var(--fg); padding: 6px 0 0; }
+        .plan__cta .arrow { transition: transform 0.25s ease; }
+        .plan__cta:hover .arrow { transform: translate(3px, -3px); }
+        .plan__cta:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+        .plan.is-selected .plan__cta { background: var(--fg); color: var(--bg); border-radius: 999px; padding: 13px 24px; justify-content: center; }
+
+        /* ---------- Add-ons ---------- */
+        .addons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: 18px; overflow: hidden; }
+        .addon { background: var(--bg); padding: 26px 28px; cursor: pointer; transition: background .2s ease, box-shadow .2s ease; outline: none; }
+        .addon:hover { background: var(--panel); }
+        .addon.is-selected { background: var(--panel-2); box-shadow: inset 3px 0 0 var(--fg); }
+        .addon.is-selected .addon__name { color: var(--fg); }
+        .addon:focus-visible { box-shadow: inset 0 0 0 2px var(--fg); }
+        .addon__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
+        .addon__name { font-family: var(--font-display); font-weight: 600; font-size: 17px; margin: 0; }
+        .addon__price { font-family: var(--font-display); font-weight: 700; font-size: 20px; white-space: nowrap; text-align: right; }
+        .addon__price small { display: block; font-weight: 400; font-size: 11px; color: var(--fg-faint); letter-spacing: 0.04em; }
+
+        /* ---------- CTA ---------- */
+        .cta-row { padding: 24px 0 110px; }
+        .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--fg); color: var(--bg); text-decoration: none; font-weight: 500; font-size: 15px; padding: 15px 26px; border-radius: 999px; transition: opacity 0.2s ease; }
+        .btn:hover { opacity: 0.88; }
+
+        @media (max-width: 900px) {
+            .plans { grid-template-columns: 1fr; }
+            .addons { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .navbar__inner { padding: 18px 22px; }
+            .nav { gap: 20px; }
+            .wrap { padding: 0 22px; }
+            .page-head { padding: 60px 0 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg" aria-hidden="true">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <span class="blob blob--3"></span>
+    </div>
+    <script>
+    /* Fundo contínuo durante toda a sessão do site. */
+    (function () {
+        var KEY = 'mdBgEpoch';
+        var now = Date.now();
+        var start = parseInt(sessionStorage.getItem(KEY) || '', 10);
+        if (!start) { start = now; sessionStorage.setItem(KEY, String(start)); }
+        var delay = '-' + ((now - start) / 1000).toFixed(3) + 's';
+        var blobs = document.querySelectorAll('.blob');
+        for (var i = 0; i < blobs.length; i++) { blobs[i].style.animationDelay = delay; }
+    })();
+    </script>
+
+    <header class="navbar">
+        <div class="navbar__inner">
+            <a class="navbar__brand" href="/" aria-label="Midnight Detailing — Início">
+                <span class="navbar__brand-main">Midnight</span>
+                <span class="navbar__brand-sub">Detailing</span>
+            </a>
+            <nav class="nav" aria-label="Navegação principal">
+                <a class="nav__link" href="/servicos/">Serviços</a>
+                <a class="nav__link nav__link--active" href="/precario-2/">Preçário 2</a>
+                <a class="nav__link" href="/#sobre">Sobre</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        {# ===== Page header ===== #}
+        <section class="wrap page-head">
+            <span class="eyebrow">Tabela de Preços · Teste</span>
+            <h1 class="page-head__title">Preçário 2</h1>
+            <p class="page-head__intro">
+                Serviços de lavagem e detalhe. Escolha o segmento da viatura, o serviço pretendido
+                e os complementares.
+            </p>
+
+            <div class="segments" role="group" aria-label="Segmento de viatura">
+                <button type="button" class="segment is-selected" aria-pressed="true">Carro Pequeno</button>
+                <button type="button" class="segment" aria-pressed="false">Carro Médio</button>
+                <button type="button" class="segment" aria-pressed="false">SUV / Grande</button>
+            </div>
+            <p class="segments__note">Os preços podem variar consoante o estado do veículo.</p>
+        </section>
+
+        {# ===== Lavagem exterior ===== #}
+        <section class="wrap section" aria-labelledby="ext-titulo">
+            <p class="section__label">Categoria 01</p>
+            <h2 class="section__title" id="ext-titulo">Lavagem exterior</h2>
+
+            <div class="plans">
+                <article class="plan" data-plan="simples">
+                    <h3 class="plan__name">Lavagem Simples</h3>
+                    <p class="plan__price">€20</p>
+                    <p class="plan__duration">20–30 min</p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Pré-lavagem, shampoo, jantes básicas, secagem e brilho pneus.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                <article class="plan" data-plan="lav-premium">
+                    <h3 class="plan__name">Lavagem Premium</h3>
+                    <p class="plan__price">€25</p>
+                    <p class="plan__duration">30–45 min</p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Pré-lavagem, espuma ativa, jantes detalhadas, secagem e proteção rápida.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                <article class="plan" data-plan="detalhada">
+                    <h3 class="plan__name">Lavagem Detalhada</h3>
+                    <p class="plan__price">€35</p>
+                    <p class="plan__duration">60–90 min</p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Descontaminação leve, limpeza de jantes completa, selante/cera e acabamento.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+            </div>
+        </section>
+
+        {# ===== Lavagem completa ===== #}
+        <section class="wrap section" aria-labelledby="comp-titulo">
+            <p class="section__label">Categoria 02</p>
+            <h2 class="section__title" id="comp-titulo">Lavagem completa <span style="color: var(--fg-faint); font-weight: 500;">· exterior + interior</span></h2>
+
+            <div class="plans">
+                <article class="plan" data-plan="basica">
+                    <h3 class="plan__name">Completa Básica</h3>
+                    <p class="plan__price">€45</p>
+                    <p class="plan__duration">1h15–1h30</p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Aspiração, limpeza de plásticos, vidros e interiores, tapetes e exterior simples.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                <article class="plan" data-plan="completa-premium">
+                    <h3 class="plan__name">Completa Premium</h3>
+                    <p class="plan__price">€50</p>
+                    <p class="plan__duration">1h30–1h45</p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Aspiração profunda, limpeza de plásticos, vidros, exterior com cera e proteção.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                <article class="plan" data-plan="deluxe">
+                    <h3 class="plan__name">Completa Deluxe</h3>
+                    <p class="plan__price">€55</p>
+                    <p class="plan__duration">2h–2h30</p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Limpeza profunda total, ceras/selantes, interiores de couro, exterior premium.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+            </div>
+        </section>
+
+        {# ===== Polimento e correção ===== #}
+        <section class="wrap section" aria-labelledby="pol-titulo">
+            <p class="section__label">Categoria 03</p>
+            <h2 class="section__title" id="pol-titulo">Polimento e correção de pintura</h2>
+
+            <div class="plans">
+                <article class="plan" data-plan="one-step">
+                    <h3 class="plan__name">One Step <span style="color: var(--fg-faint); font-weight: 500; font-size: 0.7em;">1 etapa</span></h3>
+                    <p class="plan__price">€180</p>
+                    <p class="plan__duration">5–6h</p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Remove 40–70% de riscos e marcas leves.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                <article class="plan" data-plan="two-step">
+                    <h3 class="plan__name">Two Step <span style="color: var(--fg-faint); font-weight: 500; font-size: 0.7em;">2 etapas</span></h3>
+                    <p class="plan__price">Sob consulta</p>
+                    <p class="plan__duration"></p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Remove 80–90% de riscos e hologramas.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                <article class="plan" data-plan="correcao">
+                    <h3 class="plan__name">Correção Premium <span style="color: var(--fg-faint); font-weight: 500; font-size: 0.7em;">multi-stage</span></h3>
+                    <p class="plan__price">Sob consulta</p>
+                    <p class="plan__duration"></p>
+                    <hr class="plan__divider">
+                    <p class="plan__desc">Acabamento showroom, correção máxima.</p>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+            </div>
+        </section>
+
+        {# ===== Serviços complementares ===== #}
+        <section class="wrap section" aria-labelledby="comp2-titulo">
+            <p class="section__label">Extras</p>
+            <h2 class="section__title" id="comp2-titulo">Serviços complementares</h2>
+
+            <div class="addons">
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Limpeza de Estofos (bancos)</h3>
+                        <span class="addon__price"><small>desde</small>€40</span>
+                    </div>
+                </article>
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Hidratação de Pele</h3>
+                        <span class="addon__price"><small>desde</small>€40</span>
+                    </div>
+                </article>
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Remoção de Odores</h3>
+                        <span class="addon__price"><small>desde</small>€30</span>
+                    </div>
+                </article>
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Polimento de Faróis</h3>
+                        <span class="addon__price"><small>desde</small>€30</span>
+                    </div>
+                </article>
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Higienização Interior (ozono / vapor)</h3>
+                        <span class="addon__price"><small>desde</small>€30</span>
+                    </div>
+                </article>
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Lavagem de Motor</h3>
+                        <span class="addon__price"><small>desde</small>€30</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        {# ===== CTA ===== #}
+        <section class="wrap cta-row">
+            <a class="btn" href="/#contacto">Marcar agora <span aria-hidden="true">↗</span></a>
+        </section>
+
+    </main>
+
+    <script>
+    (function () {
+        // ----- Pricing por segmento -----
+        const PRICING = {
+            'Carro Pequeno': {
+                'simples':           { p: 20,  d: '20–30 min' },
+                'lav-premium':       { p: 25,  d: '30–45 min' },
+                'detalhada':         { p: 35,  d: '60–90 min' },
+                'basica':            { p: 45,  d: '1h15–1h30' },
+                'completa-premium':  { p: 50,  d: '1h30–1h45' },
+                'deluxe':            { p: 55,  d: '2h–2h30' },
+                'one-step':          { p: 180, d: '5–6h' },
+                'two-step':          { p: null, d: null },
+                'correcao':          { p: null, d: null },
+            },
+            'Carro Médio': {
+                'simples':           { p: 25,  d: '30–40 min' },
+                'lav-premium':       { p: 30,  d: '40–60 min' },
+                'detalhada':         { p: 45,  d: '70–100 min' },
+                'basica':            { p: 55,  d: '1h30–2h' },
+                'completa-premium':  { p: 60,  d: '1h45–2h15' },
+                'deluxe':            { p: 65,  d: '2h30–3h' },
+                'one-step':          { p: 220, d: '6–8h' },
+                'two-step':          { p: null, d: null },
+                'correcao':          { p: null, d: null },
+            },
+            'SUV / Grande': {
+                'simples':           { p: 30,  d: '40–50 min' },
+                'lav-premium':       { p: 40,  d: '50–70 min' },
+                'detalhada':         { p: 55,  d: '90–120 min' },
+                'basica':            { p: 65,  d: '1h45–2h30' },
+                'completa-premium':  { p: 70,  d: '2h–2h45' },
+                'deluxe':            { p: 80,  d: '2h30–3h30' },
+                'one-step':          { p: 250, d: '6–8h' },
+                'two-step':          { p: null, d: null },
+                'correcao':          { p: null, d: null },
+            },
+        };
+
+        const planEls = Array.from(document.querySelectorAll('.plan'));
+
+        const applyPricing = (segment) => {
+            const prices = PRICING[segment];
+            if (!prices) return;
+            planEls.forEach((el) => {
+                const slug = el.getAttribute('data-plan');
+                const info = prices[slug];
+                if (!info) return;
+                const priceEl = el.querySelector('.plan__price');
+                const durEl = el.querySelector('.plan__duration');
+                if (info.p == null) {
+                    if (priceEl) { priceEl.textContent = 'Sob consulta'; priceEl.classList.add('is-quote'); }
+                    if (durEl) durEl.style.display = 'none';
+                } else {
+                    if (priceEl) { priceEl.textContent = '€' + info.p; priceEl.classList.remove('is-quote'); }
+                    if (durEl) { durEl.style.display = ''; durEl.textContent = info.d; }
+                }
+            });
+        };
+
+        // ----- Segmento: single select -----
+        const segments = Array.from(document.querySelectorAll('.segment'));
+        segments.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                segments.forEach((b) => {
+                    const on = b === btn;
+                    b.classList.toggle('is-selected', on);
+                    b.setAttribute('aria-pressed', String(on));
+                });
+                applyPricing(btn.textContent.trim());
+            });
+        });
+        const preselected = document.querySelector('.segment.is-selected');
+        applyPricing(preselected ? preselected.textContent.trim() : 'Carro Pequeno');
+
+        // ----- Plano: single select (entre todos) -----
+        planEls.forEach((plan) => {
+            plan.addEventListener('click', () => {
+                planEls.forEach((p) => {
+                    const on = p === plan;
+                    p.classList.toggle('is-selected', on);
+                    const label = p.querySelector('.plan__cta-label');
+                    const arrow = p.querySelector('.plan__cta .arrow');
+                    const cta = p.querySelector('.plan__cta');
+                    if (label) label.textContent = on ? 'Selecionado' : 'Selecionar';
+                    if (arrow) arrow.textContent = on ? '✓' : '↗';
+                    if (cta) cta.setAttribute('aria-pressed', String(on));
+                });
+            });
+        });
+
+        // ----- Complementares: multi select -----
+        const addons = Array.from(document.querySelectorAll('.addon'));
+        const toggleAddon = (addon) => {
+            const on = !addon.classList.contains('is-selected');
+            addon.classList.toggle('is-selected', on);
+            addon.setAttribute('aria-pressed', String(on));
+        };
+        addons.forEach((addon) => {
+            addon.addEventListener('click', () => toggleAddon(addon));
+            addon.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAddon(addon); }
+            });
+        });
+    })();
+    </script>
+</body>
+</html>

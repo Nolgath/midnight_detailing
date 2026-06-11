@@ -1,14 +1,665 @@
-{% extends 'base.html' %}
+<!doctype html>
+<html lang="pt-PT">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Serviços · Midnight Detailing</title>
 
-{% block content %}
-<h1>Serviços</h1>
-{% if pacotes %}
-    <ul>
-    {% for pacote in pacotes %}
-        <li>{{ pacote.nome }} — {{ pacote.preco_desde }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>Em breve.</p>
-{% endif %}
-{% endblock %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #0A0A0A;
+            --panel: #131313;
+            --panel-2: #181818;
+            --fg: #FFFFFF;
+            --fg-dim: #9A9A9A;
+            --fg-faint: #6A6A6A;
+            --line: rgba(255, 255, 255, 0.10);
+            --line-soft: rgba(255, 255, 255, 0.06);
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg);
+            color: var(--fg);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: inherit; }
+
+        /* ---------- Liquid background ---------- */
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            will-change: transform;
+        }
+        .blob--1 {
+            width: 48vw; height: 48vw;
+            left: -10vw; top: -12vh;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.27), rgba(255, 255, 255, 0) 70%);
+            animation: drift1 16s ease-in-out infinite alternate;
+        }
+        .blob--2 {
+            width: 54vw; height: 54vw;
+            right: -14vw; top: 14vh;
+            background: radial-gradient(circle at 60% 40%, rgba(215, 215, 215, 0.22), rgba(255, 255, 255, 0) 70%);
+            animation: drift2 20s ease-in-out infinite alternate;
+        }
+        .blob--3 {
+            width: 40vw; height: 40vw;
+            left: 28vw; bottom: -20vh;
+            background: radial-gradient(circle at 50% 50%, rgba(235, 235, 235, 0.20), rgba(255, 255, 255, 0) 70%);
+            animation: drift3 23s ease-in-out infinite alternate;
+        }
+        @keyframes drift1 {
+            from { transform: translate(-5vw, -4vh) scale(1); }
+            to   { transform: translate(17vw, 13vh) scale(1.3); }
+        }
+        @keyframes drift2 {
+            from { transform: translate(5vw, -3vh) scale(1.12); }
+            to   { transform: translate(-16vw, 12vh) scale(0.85); }
+        }
+        @keyframes drift3 {
+            from { transform: translate(0, 5vh) scale(1); }
+            to   { transform: translate(13vw, -15vh) scale(1.32); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .blob { animation: none; }
+        }
+        main { position: relative; z-index: 1; }
+
+        /* ---------- Navbar ---------- */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(10, 10, 10, 0.72);
+            backdrop-filter: saturate(140%) blur(14px);
+            -webkit-backdrop-filter: saturate(140%) blur(14px);
+            border-bottom: 1px solid var(--line);
+        }
+        .navbar__inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 22px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .navbar__brand {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 8px;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .navbar__brand-main { font-size: 18px; text-transform: uppercase; }
+        .navbar__brand-sub { font-size: 18px; font-weight: 500; text-transform: uppercase; color: var(--fg-dim); }
+        .nav { display: flex; align-items: center; gap: 40px; }
+        .nav__link {
+            position: relative;
+            text-decoration: none;
+            color: var(--fg-dim);
+            font-size: 15px;
+            letter-spacing: 0.01em;
+            transition: color 0.25s ease;
+        }
+        .nav__link::after {
+            content: "";
+            position: absolute;
+            left: 0; bottom: -6px;
+            width: 0; height: 1px;
+            background: var(--fg);
+            transition: width 0.28s ease;
+        }
+        .nav__link:hover { color: var(--fg); }
+        .nav__link:hover::after { width: 100%; }
+        .nav__link--active { color: var(--fg); }
+
+        /* ---------- Layout ---------- */
+        .wrap { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+
+        .page-head { padding: 96px 0 56px; }
+        .eyebrow {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fg-faint);
+            margin-bottom: 20px;
+        }
+        .page-head__title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: clamp(40px, 7vw, 80px);
+            line-height: 1.02;
+            letter-spacing: -0.02em;
+            margin: 0 0 22px;
+        }
+        .page-head__intro {
+            max-width: 56ch;
+            color: var(--fg-dim);
+            font-size: 17px;
+            line-height: 1.65;
+            font-weight: 300;
+            margin: 0;
+        }
+
+        /* ---------- Segment pills ---------- */
+        .segments { display: flex; flex-wrap: wrap; gap: 12px; margin: 40px 0 8px; }
+        .segment {
+            font-size: 14px;
+            color: var(--fg-dim);
+            padding: 11px 22px;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            background: transparent;
+        }
+        .segments__note { color: var(--fg-faint); font-size: 13px; margin: 16px 0 0; }
+
+        /* ---------- Section heads ---------- */
+        .section { padding: 72px 0; }
+        .section__label {
+            font-size: 12px;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--fg-faint);
+            margin: 0 0 10px;
+        }
+        .section__title {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: clamp(28px, 4vw, 40px);
+            letter-spacing: -0.01em;
+            margin: 0 0 48px;
+        }
+
+        /* ---------- Plan cards ---------- */
+        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .plans.plans--count-2 { grid-template-columns: repeat(2, 1fr); max-width: 840px; }
+        .plan {
+            position: relative;
+            background: var(--panel);
+            border: 1px solid var(--line-soft);
+            border-radius: 18px;
+            padding: 34px 30px 32px;
+            display: flex;
+            flex-direction: column;
+        }
+        .plan--featured { background: var(--panel-2); border-color: var(--line); }
+        .plan__badge {
+            position: absolute;
+            top: 22px; right: 22px;
+            font-size: 11px;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--fg-faint);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 5px 12px;
+        }
+        .plan__name {
+            font-family: var(--font-display);
+            font-weight: 600;
+            font-size: 24px;
+            margin: 0 0 14px;
+        }
+        .plan__price {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 46px;
+            line-height: 1;
+            margin: 0 0 4px;
+        }
+        .plan__duration { color: var(--fg-faint); font-size: 13px; margin: 0 0 26px; }
+        .plan__divider { border: none; border-top: 1px solid var(--line-soft); margin: 0 0 22px; }
+        .plan__list { list-style: none; margin: 0 0 30px; padding: 0; display: grid; gap: 13px; }
+        .plan__item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            font-size: 14.5px;
+            line-height: 1.45;
+            color: var(--fg-dim);
+        }
+        .plan__check { flex: none; width: 17px; height: 17px; margin-top: 2px; color: var(--fg); opacity: 0.85; }
+        .plan__cta {
+            margin-top: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            font-size: 15px;
+            color: var(--fg);
+            padding-top: 6px;
+        }
+        .plan__cta .arrow { transition: transform 0.25s ease; }
+        .plan__cta:hover .arrow { transform: translate(3px, -3px); }
+
+        /* ---------- Add-ons ---------- */
+        .addons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: 18px; overflow: hidden; }
+        .addon { background: var(--bg); padding: 28px 30px; }
+        .addon__head { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; margin-bottom: 10px; }
+        .addon__name { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin: 0; }
+        .addon__price { font-family: var(--font-display); font-weight: 700; font-size: 20px; white-space: nowrap; }
+        .addon__price small { display: block; font-weight: 400; font-size: 11px; color: var(--fg-faint); text-align: right; letter-spacing: 0.04em; }
+        .addon__desc { color: var(--fg-dim); font-size: 14px; line-height: 1.55; margin: 0; font-weight: 300; }
+        .addon__meta { color: var(--fg-faint); font-size: 12px; margin: 12px 0 0; }
+
+        /* ---------- Selectable states ---------- */
+        .segment {
+            font-family: var(--font-body);
+            cursor: pointer;
+            transition: background .2s ease, color .2s ease, border-color .2s ease;
+        }
+        .segment:hover { color: var(--fg); border-color: rgba(255, 255, 255, 0.26); }
+        .segment.is-selected { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+        .segment:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+
+        .plan { cursor: pointer; transition: border-color .22s ease, box-shadow .22s ease, background .22s ease; }
+        .plan:hover { border-color: var(--line); }
+        .plan.is-selected { border-color: var(--fg); box-shadow: 0 0 0 1px var(--fg); }
+
+        .plan__cta {
+            align-self: flex-start;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-family: var(--font-body);
+            padding: 6px 0 0;
+        }
+        .plan__cta:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+        .plan.is-selected .plan__cta {
+            background: var(--fg);
+            color: var(--bg);
+            border-radius: 999px;
+            padding: 13px 24px;
+            justify-content: center;
+        }
+
+        .addon { cursor: pointer; transition: background .2s ease, box-shadow .2s ease; outline: none; }
+        .addon:hover { background: var(--panel); }
+        .addon.is-selected { background: var(--panel-2); box-shadow: inset 3px 0 0 var(--fg); }
+        .addon.is-selected .addon__name { color: var(--fg); }
+        .addon:focus-visible { box-shadow: inset 0 0 0 2px var(--fg); }
+
+        /* ---------- CTA ---------- */
+        .cta-row { padding: 24px 0 110px; }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--fg);
+            color: var(--bg);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            padding: 15px 26px;
+            border-radius: 999px;
+            transition: opacity 0.2s ease;
+        }
+        .btn:hover { opacity: 0.88; }
+
+        @media (max-width: 900px) {
+            .plans, .plans.plans--count-2 { grid-template-columns: 1fr; max-width: none; }
+            .addons { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+            .navbar__inner { padding: 18px 22px; }
+            .nav { gap: 24px; }
+            .wrap { padding: 0 22px; }
+            .page-head { padding: 60px 0 40px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg" aria-hidden="true">
+        <span class="blob blob--1"></span>
+        <span class="blob blob--2"></span>
+        <span class="blob blob--3"></span>
+    </div>
+    <script>
+    /* Mantém o fundo num fluxo contínuo durante toda a sessão do site:
+       em cada página retoma a animação na fase em que ia (animation-delay negativo). */
+    (function () {
+        var KEY = 'mdBgEpoch';
+        var now = Date.now();
+        var start = parseInt(sessionStorage.getItem(KEY) || '', 10);
+        if (!start) { start = now; sessionStorage.setItem(KEY, String(start)); }
+        var delay = '-' + ((now - start) / 1000).toFixed(3) + 's';
+        var blobs = document.querySelectorAll('.blob');
+        for (var i = 0; i < blobs.length; i++) { blobs[i].style.animationDelay = delay; }
+    })();
+    </script>
+
+    <header class="navbar">
+        <div class="navbar__inner">
+            <a class="navbar__brand" href="/" aria-label="Midnight Detailing — Início">
+                <span class="navbar__brand-main">Midnight</span>
+                <span class="navbar__brand-sub">Detailing</span>
+            </a>
+            <nav class="nav" aria-label="Navegação principal">
+                <a class="nav__link nav__link--active" href="/servicos/">Serviços</a>
+                <a class="nav__link" href="/precario-2/">Preçário 2</a>
+                <a class="nav__link" href="/#sobre">Sobre</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+
+        {# ===== Page header ===== #}
+        <section class="wrap page-head">
+            <span class="eyebrow">Planos &amp; Preços</span>
+            <h1 class="page-head__title">Serviços</h1>
+            <p class="page-head__intro">
+                Lavagem e detalhe ao domicílio, executados à mão com método e materiais premium.
+                Escolha o segmento da viatura, o plano e os serviços adicionais.
+            </p>
+
+            <div class="segments" role="group" aria-label="Segmento de viatura">
+                <button type="button" class="segment is-selected" aria-pressed="true">Ligeiro</button>
+                <button type="button" class="segment" aria-pressed="false">Super desportivo</button>
+                <button type="button" class="segment" aria-pressed="false">SUV</button>
+            </div>
+            <p class="segments__note">Os preços ajustam-se ao segmento da viatura selecionado.</p>
+        </section>
+
+        {# ===== Wash plans ===== #}
+        <section class="wrap section" aria-labelledby="planos-titulo">
+            <p class="section__label">Passo 01</p>
+            <h2 class="section__title" id="planos-titulo">Planos de lavagem</h2>
+
+            <div class="plans">
+
+                {# ---- Pack Simples ---- #}
+                <article class="plan" data-plan="simples">
+                    <h3 class="plan__name">Pack Simples</h3>
+                    <p class="plan__price">€40</p>
+                    <p class="plan__duration">1 h 30 min</p>
+                    <hr class="plan__divider">
+                    <ul class="plan__list">
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
+                    </ul>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                {# ---- Pack Avançado ---- #}
+                <article class="plan plan--featured" data-plan="avancado">
+                    <span class="plan__badge">Mais popular</span>
+                    <h3 class="plan__name">Pack Avançado</h3>
+                    <p class="plan__price">€60</p>
+                    <p class="plan__duration">2 h</p>
+                    <hr class="plan__divider">
+                    <ul class="plan__list">
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Método 2 Baldes</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Passagem detalhada com pincel nos cantos e grelhas</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Condicionador de pneus</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Batentes</li>
+                    </ul>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+                {# ---- Pack Exclusivo ---- #}
+                <article class="plan" data-plan="exclusivo">
+                    <h3 class="plan__name">Pack Exclusivo</h3>
+                    <p class="plan__price">€90</p>
+                    <p class="plan__duration">3 h</p>
+                    <hr class="plan__divider">
+                    <ul class="plan__list">
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Método 2 Baldes</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Passagem detalhada com pincel nos cantos e grelhas</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Condicionador de pneus</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Batentes</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Bancos/Estofos</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de pele + condicionador</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Descalcificação de Vidros</li>
+                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Hidratação de plásticos e tablier</li>
+                    </ul>
+                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                </article>
+
+            </div>
+        </section>
+
+        {# ===== Add-on services ===== #}
+        <section class="wrap section" aria-labelledby="adicionais-titulo">
+            <p class="section__label">Passo 02</p>
+            <h2 class="section__title" id="adicionais-titulo">Serviços adicionais</h2>
+
+            <div class="addons">
+                <article class="addon" role="button" tabindex="0" aria-pressed="false" data-addon="descalcificacao-vidros">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Descalcificação de Vidros</h3>
+                        <span class="addon__price">€20</span>
+                    </div>
+                    <p class="addon__desc">
+                        Remoção de calcário e manchas de água incrustadas nos vidros, devolvendo transparência.
+                    </p>
+                </article>
+
+                <article class="addon" role="button" tabindex="0" aria-pressed="false" data-addon="brilho-pneus">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Brilho Pneus</h3>
+                        <span class="addon__price">€10</span>
+                    </div>
+                    <p class="addon__desc">
+                        Dressing que devolve o aspeto preto e acetinado aos pneus.
+                    </p>
+                </article>
+
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Cera</h3>
+                        <span class="addon__price">€10</span>
+                    </div>
+                    <p class="addon__desc">
+                        Camada de cera que realça o brilho e dá proteção temporária à pintura.
+                    </p>
+                </article>
+
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Cera de Abelha (Interior)</h3>
+                        <span class="addon__price">€10</span>
+                    </div>
+                    <p class="addon__desc">
+                        Tratamento com cera de abelha para nutrir e proteger as superfícies interiores.
+                    </p>
+                </article>
+
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Removedor de Odor</h3>
+                        <span class="addon__price">€5</span>
+                    </div>
+                    <p class="addon__desc">
+                        Eliminação de odores ligeiros no habitáculo.
+                    </p>
+                </article>
+
+                <article class="addon" role="button" tabindex="0" aria-pressed="false">
+                    <div class="addon__head">
+                        <h3 class="addon__name">Lavagem Rodas Profunda</h3>
+                        <span class="addon__price">€20</span>
+                    </div>
+                    <p class="addon__desc">
+                        Removemos as rodas e lavamos tudo por dentro a fundo — jantes, travões,
+                        remoção de ferrugem e sujidade acumulada.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        {# ===== CTA ===== #}
+        <section class="wrap cta-row">
+            <a class="btn" href="/#contacto">Marcar agora <span aria-hidden="true">↗</span></a>
+        </section>
+
+    </main>
+
+    <script>
+    (function () {
+        // ----- Per-segment pricing -----
+        const PRICING = {
+            'Ligeiro':          { simples: 40, avancado: 60,  exclusivo: 90 },
+            'Super desportivo': { simples: 80, avancado: 100, exclusivo: 150 },
+            'SUV':              { simples: 45, avancado: 70,  exclusivo: 105 },
+        };
+
+        const plansGrid = document.querySelector('.plans');
+        const planEls = {
+            simples:   document.querySelector('.plan[data-plan="simples"]'),
+            avancado:  document.querySelector('.plan[data-plan="avancado"]'),
+            exclusivo: document.querySelector('.plan[data-plan="exclusivo"]'),
+        };
+
+        const resetPlan = (p) => {
+            if (!p) return;
+            p.classList.remove('is-selected');
+            const label = p.querySelector('.plan__cta-label');
+            const arrow = p.querySelector('.plan__cta .arrow');
+            const cta = p.querySelector('.plan__cta');
+            if (label) label.textContent = 'Selecionar';
+            if (arrow) arrow.textContent = '↗';
+            if (cta) cta.setAttribute('aria-pressed', 'false');
+        };
+
+        const applyPricing = (segment) => {
+            const prices = PRICING[segment];
+            if (!prices) return;
+            let visible = 0;
+            Object.keys(planEls).forEach((key) => {
+                const el = planEls[key];
+                if (!el) return;
+                const price = prices[key];
+                if (price == null) {
+                    if (el.classList.contains('is-selected')) resetPlan(el);
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = '';
+                    visible += 1;
+                    const priceEl = el.querySelector('.plan__price');
+                    if (priceEl) priceEl.textContent = '€' + price;
+                }
+            });
+            if (plansGrid) plansGrid.classList.toggle('plans--count-2', visible === 2);
+        };
+
+        // ----- Car segment: single select -----
+        const segments = Array.from(document.querySelectorAll('.segment'));
+        segments.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                segments.forEach((b) => {
+                    const on = b === btn;
+                    b.classList.toggle('is-selected', on);
+                    b.setAttribute('aria-pressed', String(on));
+                });
+                applyPricing(btn.textContent.trim());
+            });
+        });
+
+        // Apply pricing for the segment selected by default (Ligeiro).
+        const preselected = document.querySelector('.segment.is-selected');
+        applyPricing(preselected ? preselected.textContent.trim() : 'Ligeiro');
+
+        // ----- Add-ons: multi select -----
+        const addons = Array.from(document.querySelectorAll('.addon'));
+
+        // Serviços que já fazem parte de um plano — escondidos (e desmarcados)
+        // quando esse plano está selecionado, para não serem pagos duas vezes.
+        const ADDON_INCLUDED = {
+            'descalcificacao-vidros': ['exclusivo'],
+            'brilho-pneus':          ['avancado', 'exclusivo'],
+        };
+
+        const updateAddonAvailability = () => {
+            const selected = document.querySelector('.plan.is-selected');
+            const planKey = selected ? selected.getAttribute('data-plan') : null;
+            addons.forEach((addon) => {
+                const slug = addon.getAttribute('data-addon');
+                const includedIn = ADDON_INCLUDED[slug] || [];
+                if (planKey && includedIn.indexOf(planKey) !== -1) {
+                    if (addon.classList.contains('is-selected')) {
+                        addon.classList.remove('is-selected');
+                        addon.setAttribute('aria-pressed', 'false');
+                    }
+                    addon.style.display = 'none';
+                } else {
+                    addon.style.display = '';
+                }
+            });
+        };
+
+        const toggleAddon = (addon) => {
+            const on = !addon.classList.contains('is-selected');
+            addon.classList.toggle('is-selected', on);
+            addon.setAttribute('aria-pressed', String(on));
+        };
+        addons.forEach((addon) => {
+            addon.addEventListener('click', () => toggleAddon(addon));
+            addon.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleAddon(addon);
+                }
+            });
+        });
+
+        // ----- Plan: single select -----
+        const plans = Array.from(document.querySelectorAll('.plan'));
+        plans.forEach((plan) => {
+            plan.addEventListener('click', () => {
+                plans.forEach((p) => {
+                    const on = p === plan;
+                    p.classList.toggle('is-selected', on);
+                    const label = p.querySelector('.plan__cta-label');
+                    const arrow = p.querySelector('.plan__cta .arrow');
+                    const cta = p.querySelector('.plan__cta');
+                    if (label) label.textContent = on ? 'Selecionado' : 'Selecionar';
+                    if (arrow) arrow.textContent = on ? '✓' : '↗';
+                    if (cta) cta.setAttribute('aria-pressed', String(on));
+                });
+                updateAddonAvailability();
+            });
+        });
+
+        updateAddonAvailability();
+    })();
+    </script>
+</body>
+</html>

@@ -30,19 +30,15 @@ def _testemunhos_ativos(limit=6):
 
 
 def home(request):
-    return render(request, 'core/home.html', {
-        'page_title': 'Início',
-        'pacotes': _pacotes_ativos(),
-        'testemunhos': _testemunhos_ativos(),
-        'form': PedidoContactoForm(),
-    })
+    return render(request, 'core/home.html')
 
 
 def services(request):
-    return render(request, 'core/services.html', {
-        'page_title': 'Serviços',
-        'pacotes': _pacotes_ativos(),
-    })
+    return render(request, 'core/services.html')
+
+
+def precario2(request):
+    return render(request, 'core/precario2.html')
 
 
 @require_http_methods(['GET', 'POST'])
