@@ -32,35 +32,40 @@ services:
         value: "3.12.5"
       - key: WEB_CONCURRENCY
         value: "2"
-      - key: WHATSAPP_NUMBER
-        sync: false
-      - key: BUSINESS_PHONE
-        sync: false
-      - key: CONTACT_EMAIL
-        sync: false
-      - key: DJANGO_EMAIL_BACKEND
-        sync: false
-      - key: EMAIL_HOST
-        sync: false
-      - key: EMAIL_PORT
-        sync: false
-      - key: EMAIL_HOST_USER
-        sync: false
+
+      # --- Email (Gmail SMTP) ---
+      # Único valor manual: EMAIL_HOST_PASSWORD (App Password do Gmail).
+      # O Render pede-o no formulário ao criar o Blueprint.
       - key: EMAIL_HOST_PASSWORD
         sync: false
+      - key: DJANGO_EMAIL_BACKEND
+        value: "django.core.mail.backends.smtp.EmailBackend"
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - key: EMAIL_PORT
+        value: "587"
       - key: EMAIL_USE_TLS
-        sync: false
+        value: "True"
       - key: EMAIL_USE_SSL
-        sync: false
+        value: "False"
+      - key: EMAIL_HOST_USER
+        value: "mddetailing2026@gmail.com"
       - key: DEFAULT_FROM_EMAIL
-        sync: false
+        value: "Midnight Detailing <mddetailing2026@gmail.com>"
       - key: BOOKING_EMAIL
-        sync: false
+        value: "mddetailing2026@gmail.com"
+      - key: CONTACT_EMAIL
+        value: "mddetailing2026@gmail.com"
+
+      # --- Negócio / SEO local ---
+      # WHATSAPP_NUMBER e BUSINESS_PHONE: atualizar quando houver número real.
+      - key: WHATSAPP_NUMBER
+        value: "+351900000000"
+      - key: BUSINESS_PHONE
+        value: "+351900000000"
       - key: GOOGLE_BUSINESS_URL
-        sync: false
+        value: "https://share.google/WTt0SSLsVUKHG4ySR"
       - key: INSTAGRAM_URL
-        sync: false
-      - key: FACEBOOK_URL
-        sync: false
+        value: "https://www.instagram.com/midnight.detailing.oficial/"
       - key: TIKTOK_URL
-        sync: false
+        value: "https://www.tiktok.com/@midnight.detailin8"
