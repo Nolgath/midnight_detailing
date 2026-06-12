@@ -3,8 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Midnight Detailing — Auto Detailing em Lisboa</title>
-    <meta name="description" content="Transformamos o look do teu carro — lavagem completa e sem preocupações.">
+    <title>Midnight Detailing · Lavagem de Carros e Detalhe Automóvel em Alverca do Ribatejo</title>
+    <meta name="description" content="Lavagem de carros e detalhe automóvel premium em Alverca do Ribatejo. Limpeza interior profunda, polimento e proteção cerâmica, com recolha e entrega ao domicílio. Marca online em 2 minutos.">
+    <meta name="keywords" content="lavagem de carros alverca, lavar carro alverca, detalhe automóvel alverca, alverca detalhe de carros, car detailing alverca, lavagem automóvel alverca do ribatejo, limpeza interior carro alverca">
+    <link rel="canonical" href="{{ SITE_URL }}/">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0A0A0A">
+
+    <meta name="geo.region" content="PT-11">
+    <meta name="geo.placename" content="Alverca do Ribatejo">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ SITE_NAME }}">
+    <meta property="og:title" content="Midnight Detailing · Lavagem de Carros e Detalhe Automóvel em Alverca do Ribatejo">
+    <meta property="og:description" content="Lavagem e detalhe automóvel premium em Alverca. Recolha e entrega ao domicílio. Marca online em 2 minutos.">
+    <meta property="og:url" content="{{ SITE_URL }}/">
+    <meta property="og:image" content="{{ SITE_URL }}{% load static %}{% static 'img/logo.jpeg' %}">
+    <meta property="og:locale" content="pt_PT">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="icon" type="image/jpeg" href="{% static 'img/logo.jpeg' %}">
+
+    {% include 'core/partials/seo_jsonld.html' %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,7 +114,7 @@
         /* ---------- Navbar ---------- */
         .navbar {
             position: relative;
-            z-index: 1;
+            z-index: 50;
             flex: none;
             border-bottom: 1px solid var(--line);
         }
@@ -161,7 +181,45 @@
 
         @media (max-width: 640px) {
             .navbar__inner { padding: 18px 22px; }
-            .nav { gap: 22px; }
+        }
+
+        /* ---------- Mobile nav ---------- */
+        .nav-toggle { display: none; }
+        @media (max-width: 760px) {
+            .nav-toggle {
+                display: inline-flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 5px;
+                width: 44px; height: 44px;
+                margin: -8px -8px -8px 0;
+                background: transparent; border: none; cursor: pointer;
+            }
+            .nav-toggle__bar { display: block; width: 22px; height: 2px; background: var(--fg); transition: transform .25s ease, opacity .25s ease; }
+            .navbar.is-open .nav-toggle__bar:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+            .navbar.is-open .nav-toggle__bar:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
+
+            .nav {
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                background: rgba(10, 10, 10, 0.97);
+                backdrop-filter: saturate(140%) blur(14px);
+                -webkit-backdrop-filter: saturate(140%) blur(14px);
+                border-bottom: 1px solid var(--line);
+                padding: 4px 22px 14px;
+                transform: translateY(-10px);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity .22s ease, transform .22s ease;
+            }
+            .navbar.is-open .nav { opacity: 1; transform: translateY(0); pointer-events: auto; }
+            .nav__link { padding: 15px 2px; font-size: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+            .nav__link:last-child { border-bottom: none; }
+            .nav__link::after { display: none; }
         }
     </style>
 </head>
@@ -191,23 +249,43 @@
                 <span class="navbar__brand-main">Midnight</span>
                 <span class="navbar__brand-sub">Detailing</span>
             </a>
-            <nav class="nav" aria-label="Navegação principal">
+            <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="primary-nav">
+                <span class="nav-toggle__bar" aria-hidden="true"></span>
+                <span class="nav-toggle__bar" aria-hidden="true"></span>
+            </button>
+            <nav class="nav" id="primary-nav" aria-label="Navegação principal">
                 <a class="nav__link" href="/servicos/">Serviços</a>
-                <a class="nav__link" href="/precario-2/">Preçário 2</a>
-                <a class="nav__link" href="/#sobre">Sobre</a>
+                <a class="nav__link" href="/sobre/">Sobre</a>
             </nav>
         </div>
     </header>
 
     <main class="hero">
-        <span class="hero__eyebrow">Auto Detailing · Lisboa</span>
+        <span class="hero__eyebrow">Detalhe Automóvel · Alverca do Ribatejo</span>
         <h1 class="hero__title">
-            Transformamos o look do teu carro — lavagem completa e sem preocupações.
+            Transformamos o look do teu carro em Alverca. Lavagem e detalhe completos, sem preocupações.
         </h1>
         <a class="hero__cta" href="/servicos/">
             Personaliza o teu serviço e marca
             <span class="arrow" aria-hidden="true">↗</span>
         </a>
     </main>
+
+    <script>
+    (function () {
+        var navbar = document.querySelector('.navbar');
+        var toggle = navbar && navbar.querySelector('.nav-toggle');
+        if (!toggle) return;
+        var setOpen = function (open) {
+            navbar.classList.toggle('is-open', open);
+            toggle.setAttribute('aria-expanded', String(open));
+            toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+        };
+        toggle.addEventListener('click', function () { setOpen(!navbar.classList.contains('is-open')); });
+        navbar.querySelectorAll('.nav__link').forEach(function (link) {
+            link.addEventListener('click', function () { setOpen(false); });
+        });
+    })();
+    </script>
 </body>
 </html>

@@ -41,6 +41,15 @@ if _render_host and _render_host not in ALLOWED_HOSTS:
 
 CSRF_TRUSTED_ORIGINS = _env_list('DJANGO_CSRF_TRUSTED_ORIGINS', 'https://*.onrender.com')
 
+# Segurança em produção — o Render termina o TLS no proxy.
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 60 * 60 * 24 * 30  # 30 dias; subir após validar HTTPS
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -144,11 +153,42 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'no-reply@midnightdetailing
 # Destination for contact form / quote requests
 CONTACT_EMAIL = os.getenv('CONTACT_EMAIL', 'geral@midnightdetailing.pt')
 
+# Destination for booking requests (cart -> Marcar e concluir)
+BOOKING_EMAIL = os.getenv('BOOKING_EMAIL', 'mddetailing2026@gmail.com')
+
 
 # Site / business info (used in templates via context processor)
 SITE_NAME = 'Midnight Detailing'
-SITE_TAGLINE = 'Auto detailing premium em Portugal'
+SITE_TAGLINE = 'Detalhe automóvel e lavagem de carros premium em Alverca do Ribatejo'
+
+# URL pública do site — usada em canonical, Open Graph, sitemap e JSON-LD.
+# Em produção no Render, RENDER_EXTERNAL_URL é definido automaticamente.
+SITE_URL = os.getenv(
+    'SITE_URL',
+    os.getenv('RENDER_EXTERNAL_URL', 'http://127.0.0.1:8000'),
+).rstrip('/')
 
 # Contactos do negócio — expostos a todos os templates via context processor.
 WHATSAPP_NUMBER = os.getenv('WHATSAPP_NUMBER', '+351900000000')
 BUSINESS_PHONE = os.getenv('BUSINESS_PHONE', '+351900000000')
+
+# Localização / SEO local (foco: Alverca do Ribatejo)
+BUSINESS_LOCALITY = os.getenv('BUSINESS_LOCALITY', 'Alverca do Ribatejo')
+BUSINESS_REGION = os.getenv('BUSINESS_REGION', 'Lisboa')
+BUSINESS_POSTAL_CODE = os.getenv('BUSINESS_POSTAL_CODE', '2615')
+
+# Redes sociais / presença online — só aparecem no site quando definidas.
+GOOGLE_BUSINESS_URL = os.getenv(
+    'GOOGLE_BUSINESS_URL', 'https://share.google/WTt0SSLsVUKHG4ySR',
+)
+INSTAGRAM_URL = os.getenv(
+    'INSTAGRAM_URL', 'https://www.instagram.com/midnight.detailing.oficial/',
+)
+FACEBOOK_URL = os.getenv('FACEBOOK_URL', '')
+TIKTOK_URL = os.getenv(
+    'TIKTOK_URL', 'https://www.tiktok.com/@midnight.detailin8',
+)
+
+# Nº de reviews na ficha Google. Quando definido, o JSON-LD inclui
+# aggregateRating 5.0 com este número de avaliações.
+GOOGLE_REVIEW_COUNT = os.getenv('GOOGLE_REVIEW_COUNT', '')

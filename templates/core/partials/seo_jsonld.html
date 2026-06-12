@@ -1,0 +1,65 @@
+{# Dados estruturados schema.org — negócio local de detalhe automóvel em Alverca do Ribatejo. #}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": ["AutoWash", "LocalBusiness"],
+    "@id": "{{ SITE_URL }}/#negocio",
+    "name": "{{ SITE_NAME }}",
+    "alternateName": "Midnight Detailing Alverca",
+    "description": "Detalhe automóvel e lavagem de carros premium em Alverca do Ribatejo: lavagem interior e exterior, higienização de estofos, polimento e proteção cerâmica. Com recolha e entrega do carro ao domicílio.",
+    "url": "{{ SITE_URL }}/",
+    "image": "{{ SITE_URL }}{% load static %}{% static 'img/logo.jpeg' %}",
+    "logo": "{{ SITE_URL }}{% static 'img/logo.jpeg' %}",
+    {% if BUSINESS_PHONE %}"telephone": "{{ BUSINESS_PHONE }}",{% endif %}
+    {% if CONTACT_EMAIL %}"email": "{{ CONTACT_EMAIL }}",{% endif %}
+    "priceRange": "€€",
+    "currenciesAccepted": "EUR",
+    {% if GOOGLE_REVIEW_COUNT %}"aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "bestRating": "5",
+        "ratingCount": "{{ GOOGLE_REVIEW_COUNT }}"
+    },{% endif %}
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "{{ BUSINESS_LOCALITY }}",
+        "addressRegion": "{{ BUSINESS_REGION }}",
+        {% if BUSINESS_POSTAL_CODE %}"postalCode": "{{ BUSINESS_POSTAL_CODE }}",{% endif %}
+        "addressCountry": "PT"
+    },
+    "areaServed": [
+        {"@type": "City", "name": "Alverca do Ribatejo"},
+        {"@type": "City", "name": "Sobralinho"},
+        {"@type": "City", "name": "Vila Franca de Xira"},
+        {"@type": "City", "name": "Póvoa de Santa Iria"},
+        {"@type": "City", "name": "Forte da Casa"},
+        {"@type": "City", "name": "Vialonga"},
+        {"@type": "City", "name": "Alhandra"}
+    ],
+    "openingHoursSpecification": [
+        {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Saturday", "Sunday"],
+            "opens": "09:00",
+            "closes": "19:00"
+        }
+    ],
+    "sameAs": [
+        {% if GOOGLE_BUSINESS_URL %}"{{ GOOGLE_BUSINESS_URL }}"{% endif %}{% if INSTAGRAM_URL %},
+        "{{ INSTAGRAM_URL }}"{% endif %}{% if FACEBOOK_URL %},
+        "{{ FACEBOOK_URL }}"{% endif %}{% if TIKTOK_URL %},
+        "{{ TIKTOK_URL }}"{% endif %}
+    ],
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Serviços de detalhe automóvel em Alverca",
+        "itemListElement": [
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Lavagem de carro completa (interior e exterior)", "areaServed": "Alverca do Ribatejo"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Limpeza interior profunda e higienização de estofos", "areaServed": "Alverca do Ribatejo"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Polimento automóvel e remoção de riscos", "areaServed": "Alverca do Ribatejo"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Proteção cerâmica e vitrificação de pintura", "areaServed": "Alverca do Ribatejo"}},
+            {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Recolha e entrega do carro ao domicílio", "areaServed": "Alverca do Ribatejo"}}
+        ]
+    }
+}
+</script>

@@ -47,5 +47,19 @@ services:
         sync: false
       - key: EMAIL_HOST_PASSWORD
         sync: false
+      - key: EMAIL_USE_TLS
+        sync: false
+      - key: EMAIL_USE_SSL
+        sync: false
       - key: DEFAULT_FROM_EMAIL
+        sync: false
+      - key: BOOKING_EMAIL
+        sync: false
+      - key: GOOGLE_BUSINESS_URL
+        sync: false
+      - key: INSTAGRAM_URL
+        sync: false
+      - key: FACEBOOK_URL
+        sync: false
+      - key: TIKTOK_URL
         sync: false

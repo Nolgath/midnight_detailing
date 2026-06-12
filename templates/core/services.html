@@ -3,7 +3,28 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Serviços · Midnight Detailing</title>
+    <title>Serviços e Preços · Lavagem e Detalhe Automóvel em Alverca · Midnight Detailing</title>
+    <meta name="description" content="Preços e serviços de lavagem de carros e detalhe automóvel em Alverca do Ribatejo: limpeza interior e exterior, higienização de estofos, polimento e proteção cerâmica. Monta o teu serviço e marca online.">
+    <meta name="keywords" content="preços lavagem carros alverca, detalhe automóvel alverca preços, lavar carro alverca, limpeza estofos carro alverca, polimento alverca, proteção cerâmica alverca">
+    <link rel="canonical" href="{{ SITE_URL }}/servicos/">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0A0A0A">
+
+    <meta name="geo.region" content="PT-11">
+    <meta name="geo.placename" content="Alverca do Ribatejo">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ SITE_NAME }}">
+    <meta property="og:title" content="Serviços e Preços · Lavagem e Detalhe Automóvel em Alverca · Midnight Detailing">
+    <meta property="og:description" content="Monta o teu serviço de lavagem ou detalhe automóvel em Alverca e marca online, com recolha e entrega ao domicílio.">
+    <meta property="og:url" content="{{ SITE_URL }}/servicos/">
+    <meta property="og:image" content="{{ SITE_URL }}{% load static %}{% static 'img/logo.jpeg' %}">
+    <meta property="og:locale" content="pt_PT">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="icon" type="image/jpeg" href="{% static 'img/logo.jpeg' %}">
+
+    {% include 'core/partials/seo_jsonld.html' %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,8 +47,7 @@
         * { box-sizing: border-box; }
 
         html, body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background: var(--bg);
             color: var(--fg);
             font-family: var(--font-body);
@@ -38,297 +58,217 @@
         a { color: inherit; }
 
         /* ---------- Liquid background ---------- */
-        .bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            will-change: transform;
-        }
+        .bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(90px); will-change: transform; }
         .blob--1 {
-            width: 48vw; height: 48vw;
-            left: -10vw; top: -12vh;
+            width: 48vw; height: 48vw; left: -10vw; top: -12vh;
             background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.27), rgba(255, 255, 255, 0) 70%);
             animation: drift1 16s ease-in-out infinite alternate;
         }
         .blob--2 {
-            width: 54vw; height: 54vw;
-            right: -14vw; top: 14vh;
+            width: 54vw; height: 54vw; right: -14vw; top: 14vh;
             background: radial-gradient(circle at 60% 40%, rgba(215, 215, 215, 0.22), rgba(255, 255, 255, 0) 70%);
             animation: drift2 20s ease-in-out infinite alternate;
         }
         .blob--3 {
-            width: 40vw; height: 40vw;
-            left: 28vw; bottom: -20vh;
+            width: 40vw; height: 40vw; left: 28vw; bottom: -20vh;
             background: radial-gradient(circle at 50% 50%, rgba(235, 235, 235, 0.20), rgba(255, 255, 255, 0) 70%);
             animation: drift3 23s ease-in-out infinite alternate;
         }
-        @keyframes drift1 {
-            from { transform: translate(-5vw, -4vh) scale(1); }
-            to   { transform: translate(17vw, 13vh) scale(1.3); }
-        }
-        @keyframes drift2 {
-            from { transform: translate(5vw, -3vh) scale(1.12); }
-            to   { transform: translate(-16vw, 12vh) scale(0.85); }
-        }
-        @keyframes drift3 {
-            from { transform: translate(0, 5vh) scale(1); }
-            to   { transform: translate(13vw, -15vh) scale(1.32); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .blob { animation: none; }
-        }
+        @keyframes drift1 { from { transform: translate(-5vw, -4vh) scale(1); } to { transform: translate(17vw, 13vh) scale(1.3); } }
+        @keyframes drift2 { from { transform: translate(5vw, -3vh) scale(1.12); } to { transform: translate(-16vw, 12vh) scale(0.85); } }
+        @keyframes drift3 { from { transform: translate(0, 5vh) scale(1); } to { transform: translate(13vw, -15vh) scale(1.32); } }
+        @media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
         main { position: relative; z-index: 1; }
 
         /* ---------- Navbar ---------- */
         .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 50;
+            position: sticky; top: 0; z-index: 50;
             background: rgba(10, 10, 10, 0.72);
             backdrop-filter: saturate(140%) blur(14px);
             -webkit-backdrop-filter: saturate(140%) blur(14px);
             border-bottom: 1px solid var(--line);
         }
-        .navbar__inner {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 22px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .navbar__brand {
-            display: inline-flex;
-            align-items: baseline;
-            gap: 8px;
-            text-decoration: none;
-            font-family: var(--font-display);
-            font-weight: 700;
-            letter-spacing: 0.02em;
-        }
+        .navbar__inner { max-width: 1280px; margin: 0 auto; padding: 22px 40px; display: flex; align-items: center; justify-content: space-between; }
+        .navbar__brand { display: inline-flex; align-items: baseline; gap: 8px; text-decoration: none; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.02em; }
         .navbar__brand-main { font-size: 18px; text-transform: uppercase; }
         .navbar__brand-sub { font-size: 18px; font-weight: 500; text-transform: uppercase; color: var(--fg-dim); }
         .nav { display: flex; align-items: center; gap: 40px; }
-        .nav__link {
-            position: relative;
-            text-decoration: none;
-            color: var(--fg-dim);
-            font-size: 15px;
-            letter-spacing: 0.01em;
-            transition: color 0.25s ease;
-        }
-        .nav__link::after {
-            content: "";
-            position: absolute;
-            left: 0; bottom: -6px;
-            width: 0; height: 1px;
-            background: var(--fg);
-            transition: width 0.28s ease;
-        }
+        .nav__link { position: relative; text-decoration: none; color: var(--fg-dim); font-size: 15px; transition: color 0.25s ease; }
+        .nav__link::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 0; height: 1px; background: var(--fg); transition: width 0.28s ease; }
         .nav__link:hover { color: var(--fg); }
         .nav__link:hover::after { width: 100%; }
         .nav__link--active { color: var(--fg); }
 
         /* ---------- Layout ---------- */
-        .wrap { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+        .wrap { max-width: 1280px; margin: 0 auto; padding-left: 40px; padding-right: 40px; }
+        .page-head { padding-top: 96px; padding-bottom: 8px; }
+        .eyebrow { display: inline-block; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-faint); margin-bottom: 20px; }
+        .page-head__title { font-family: var(--font-display); font-weight: 700; font-size: clamp(40px, 7vw, 80px); line-height: 1.02; letter-spacing: -0.02em; margin: 0 0 22px; }
+        .page-head__intro { max-width: 56ch; color: var(--fg-dim); font-size: 17px; line-height: 1.65; font-weight: 300; margin: 0; }
 
-        .page-head { padding: 96px 0 56px; }
-        .eyebrow {
-            display: inline-block;
-            font-size: 12px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--fg-faint);
-            margin-bottom: 20px;
-        }
-        .page-head__title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: clamp(40px, 7vw, 80px);
-            line-height: 1.02;
-            letter-spacing: -0.02em;
-            margin: 0 0 22px;
-        }
-        .page-head__intro {
-            max-width: 56ch;
-            color: var(--fg-dim);
-            font-size: 17px;
-            line-height: 1.65;
-            font-weight: 300;
-            margin: 0;
-        }
+        /* ---------- Mode toggle ---------- */
+        .mode-toggle { display: inline-flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 999px; margin-top: 38px; }
+        .mode-toggle__btn { font-family: var(--font-body); font-size: 14px; color: var(--fg-dim); background: transparent; border: none; cursor: pointer; padding: 11px 26px; border-radius: 999px; transition: background .2s ease, color .2s ease; }
+        .mode-toggle__btn:hover { color: var(--fg); }
+        .mode-toggle__btn.is-active { background: var(--fg); color: var(--bg); }
+        .mode-panel[hidden] { display: none; }
 
         /* ---------- Segment pills ---------- */
-        .segments { display: flex; flex-wrap: wrap; gap: 12px; margin: 40px 0 8px; }
-        .segment {
-            font-size: 14px;
-            color: var(--fg-dim);
-            padding: 11px 22px;
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            background: transparent;
-        }
-        .segments__note { color: var(--fg-faint); font-size: 13px; margin: 16px 0 0; }
-
-        /* ---------- Section heads ---------- */
-        .section { padding: 72px 0; }
-        .section__label {
-            font-size: 12px;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: var(--fg-faint);
-            margin: 0 0 10px;
-        }
-        .section__title {
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: clamp(28px, 4vw, 40px);
-            letter-spacing: -0.01em;
-            margin: 0 0 48px;
-        }
-
-        /* ---------- Plan cards ---------- */
-        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .plans.plans--count-2 { grid-template-columns: repeat(2, 1fr); max-width: 840px; }
-        .plan {
-            position: relative;
-            background: var(--panel);
-            border: 1px solid var(--line-soft);
-            border-radius: 18px;
-            padding: 34px 30px 32px;
-            display: flex;
-            flex-direction: column;
-        }
-        .plan--featured { background: var(--panel-2); border-color: var(--line); }
-        .plan__badge {
-            position: absolute;
-            top: 22px; right: 22px;
-            font-size: 11px;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--fg-faint);
-            border: 1px solid var(--line);
-            border-radius: 999px;
-            padding: 5px 12px;
-        }
-        .plan__name {
-            font-family: var(--font-display);
-            font-weight: 600;
-            font-size: 24px;
-            margin: 0 0 14px;
-        }
-        .plan__price {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 46px;
-            line-height: 1;
-            margin: 0 0 4px;
-        }
-        .plan__duration { color: var(--fg-faint); font-size: 13px; margin: 0 0 26px; }
-        .plan__divider { border: none; border-top: 1px solid var(--line-soft); margin: 0 0 22px; }
-        .plan__list { list-style: none; margin: 0 0 30px; padding: 0; display: grid; gap: 13px; }
-        .plan__item {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            font-size: 14.5px;
-            line-height: 1.45;
-            color: var(--fg-dim);
-        }
-        .plan__check { flex: none; width: 17px; height: 17px; margin-top: 2px; color: var(--fg); opacity: 0.85; }
-        .plan__cta {
-            margin-top: auto;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            font-size: 15px;
-            color: var(--fg);
-            padding-top: 6px;
-        }
-        .plan__cta .arrow { transition: transform 0.25s ease; }
-        .plan__cta:hover .arrow { transform: translate(3px, -3px); }
-
-        /* ---------- Add-ons ---------- */
-        .addons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: 18px; overflow: hidden; }
-        .addon { background: var(--bg); padding: 28px 30px; }
-        .addon__head { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; margin-bottom: 10px; }
-        .addon__name { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin: 0; }
-        .addon__price { font-family: var(--font-display); font-weight: 700; font-size: 20px; white-space: nowrap; }
-        .addon__price small { display: block; font-weight: 400; font-size: 11px; color: var(--fg-faint); text-align: right; letter-spacing: 0.04em; }
-        .addon__desc { color: var(--fg-dim); font-size: 14px; line-height: 1.55; margin: 0; font-weight: 300; }
-        .addon__meta { color: var(--fg-faint); font-size: 12px; margin: 12px 0 0; }
-
-        /* ---------- Selectable states ---------- */
-        .segment {
-            font-family: var(--font-body);
-            cursor: pointer;
-            transition: background .2s ease, color .2s ease, border-color .2s ease;
-        }
+        .segments { display: flex; flex-wrap: wrap; gap: 12px; margin: 0 0 8px; }
+        .segment { font-family: var(--font-body); font-size: 14px; color: var(--fg-dim); padding: 11px 22px; border: 1px solid var(--line); border-radius: 999px; background: transparent; cursor: pointer; transition: background .2s ease, color .2s ease, border-color .2s ease; }
         .segment:hover { color: var(--fg); border-color: rgba(255, 255, 255, 0.26); }
         .segment.is-selected { background: var(--fg); color: var(--bg); border-color: var(--fg); }
         .segment:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+        .segments__note { color: var(--fg-faint); font-size: 13px; margin: 16px 0 0; }
+        .segments-section { padding-top: 40px; }
 
-        .plan { cursor: pointer; transition: border-color .22s ease, box-shadow .22s ease, background .22s ease; }
+        /* ---------- Section heads ---------- */
+        .section { padding-top: 56px; padding-bottom: 56px; }
+        .section__label { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--fg-faint); margin: 0 0 10px; }
+        .section__title { font-family: var(--font-display); font-weight: 600; font-size: clamp(28px, 4vw, 40px); letter-spacing: -0.01em; margin: 0 0 40px; }
+
+        /* ---------- Plan cards ---------- */
+        .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .plan { position: relative; background: var(--panel); border: 1px solid var(--line-soft); border-radius: 18px; padding: 34px 30px 32px; display: flex; flex-direction: column; cursor: pointer; transition: border-color .22s ease, box-shadow .22s ease; }
         .plan:hover { border-color: var(--line); }
         .plan.is-selected { border-color: var(--fg); box-shadow: 0 0 0 1px var(--fg); }
-
-        .plan__cta {
-            align-self: flex-start;
-            border: none;
-            background: transparent;
-            cursor: pointer;
-            font-family: var(--font-body);
-            padding: 6px 0 0;
-        }
+        .plan--featured { background: var(--panel-2); border-color: var(--line); }
+        .plan__badge { position: absolute; top: 22px; right: 22px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-faint); border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
+        .plan__name { font-family: var(--font-display); font-weight: 600; font-size: 24px; margin: 0 0 14px; }
+        .plan__price { font-family: var(--font-display); font-weight: 700; font-size: 46px; line-height: 1; margin: 0 0 4px; }
+        .plan__duration { color: var(--fg-faint); font-size: 13px; margin: 0 0 26px; }
+        .plan__divider { border: none; border-top: 1px solid var(--line-soft); margin: 0 0 22px; }
+        .plan__list { list-style: none; margin: 0 0 30px; padding: 0; display: grid; gap: 13px; }
+        .plan__item { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.45; color: var(--fg-dim); }
+        .plan__check { flex: none; width: 17px; height: 17px; margin-top: 2px; color: var(--fg); opacity: 0.85; }
+        .plan__cta { align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 8px; border: none; background: transparent; cursor: pointer; font-family: var(--font-body); font-size: 15px; color: var(--fg); padding: 6px 0 0; }
+        .plan__cta .arrow { transition: transform 0.25s ease; }
+        .plan__cta:hover .arrow { transform: translate(3px, -3px); }
         .plan__cta:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
-        .plan.is-selected .plan__cta {
-            background: var(--fg);
-            color: var(--bg);
-            border-radius: 999px;
-            padding: 13px 24px;
-            justify-content: center;
-        }
+        .plan.is-selected .plan__cta { background: var(--fg); color: var(--bg); border-radius: 999px; padding: 13px 24px; justify-content: center; }
 
-        .addon { cursor: pointer; transition: background .2s ease, box-shadow .2s ease; outline: none; }
+        /* ---------- Add-ons ---------- */
+        .addons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); border-radius: 18px; overflow: hidden; }
+        .addon { background: var(--bg); padding: 28px 30px; cursor: pointer; transition: background .2s ease, box-shadow .2s ease; outline: none; }
         .addon:hover { background: var(--panel); }
         .addon.is-selected { background: var(--panel-2); box-shadow: inset 3px 0 0 var(--fg); }
         .addon.is-selected .addon__name { color: var(--fg); }
         .addon:focus-visible { box-shadow: inset 0 0 0 2px var(--fg); }
+        .addon__head { display: flex; justify-content: space-between; align-items: baseline; gap: 18px; margin-bottom: 10px; }
+        .addon__name { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin: 0; }
+        .addon__price { font-family: var(--font-display); font-weight: 700; font-size: 20px; white-space: nowrap; }
+        .addon__desc { color: var(--fg-dim); font-size: 14px; line-height: 1.55; margin: 0; font-weight: 300; }
 
         /* ---------- CTA ---------- */
-        .cta-row { padding: 24px 0 110px; }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--fg);
-            color: var(--bg);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 15px;
-            padding: 15px 26px;
-            border-radius: 999px;
-            transition: opacity 0.2s ease;
-        }
+        .cta-row { padding-top: 24px; padding-bottom: 110px; }
+        .btn { display: inline-flex; align-items: center; gap: 10px; background: var(--fg); color: var(--bg); text-decoration: none; font-weight: 500; font-size: 15px; padding: 15px 26px; border-radius: 999px; transition: opacity 0.2s ease; }
         .btn:hover { opacity: 0.88; }
 
         @media (max-width: 900px) {
-            .plans, .plans.plans--count-2 { grid-template-columns: 1fr; max-width: none; }
+            .plans { grid-template-columns: 1fr; }
             .addons { grid-template-columns: 1fr; }
         }
         @media (max-width: 640px) {
             .navbar__inner { padding: 18px 22px; }
-            .nav { gap: 24px; }
-            .wrap { padding: 0 22px; }
-            .page-head { padding: 60px 0 40px; }
+            .wrap { padding-left: 22px; padding-right: 22px; }
+            .page-head { padding-top: 60px; }
+            .mode-toggle { width: 100%; }
+            .mode-toggle__btn { flex: 1; }
+        }
+
+        /* ---------- Cart / resumo ---------- */
+        .cart-section { padding-top: 8px; padding-bottom: 110px; }
+        .cart { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 32px 34px; max-width: 720px; }
+        .cart__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+        .cart__title { font-family: var(--font-display); font-weight: 600; font-size: 24px; margin: 0; }
+        .cart__seg { font-size: 13px; color: var(--fg-faint); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; white-space: nowrap; }
+        .cart__items { list-style: none; margin: 0; padding: 0; }
+        .cart__item { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line-soft); font-size: 15px; color: var(--fg-dim); }
+        .cart__item-name { color: var(--fg); }
+        .cart__empty { color: var(--fg-faint); font-size: 15px; margin: 6px 0 0; }
+        .cart__foot { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: 24px; }
+        .cart__total { font-size: 15px; color: var(--fg-dim); }
+        .cart__total strong { font-family: var(--font-display); font-weight: 700; font-size: 30px; color: var(--fg); margin-left: 10px; }
+        .btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+        /* ---------- Booking modal ---------- */
+        .booking { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; }
+        .booking[hidden] { display: none; }
+        .booking__backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.62); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+        .booking__dialog { position: relative; width: 100%; max-width: 460px; max-height: 90vh; overflow-y: auto; background: #0E0E0E; border: 1px solid var(--line); border-radius: 22px; padding: 34px 32px; }
+        .booking__close { position: absolute; top: 16px; right: 16px; width: 38px; height: 38px; border: none; background: transparent; color: var(--fg-dim); font-size: 26px; line-height: 1; cursor: pointer; border-radius: 50%; }
+        .booking__close:hover { color: var(--fg); background: var(--line-soft); }
+        .booking__title { font-family: var(--font-display); font-weight: 600; font-size: 26px; margin: 0 0 22px; }
+
+        .cal__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .cal__month { font-family: var(--font-display); font-weight: 600; font-size: 16px; text-transform: capitalize; }
+        .cal__nav { width: 36px; height: 36px; border: 1px solid var(--line); background: transparent; color: var(--fg); border-radius: 10px; cursor: pointer; font-size: 18px; }
+        .cal__nav:disabled { opacity: 0.3; cursor: not-allowed; }
+        .cal__weekdays, .cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .cal__weekdays { margin-bottom: 6px; }
+        .cal__wd { text-align: center; font-size: 11px; color: var(--fg-faint); padding: 4px 0; }
+        .cal__day { aspect-ratio: 1; border: none; background: transparent; color: var(--fg-dim); border-radius: 10px; font-size: 14px; font-family: var(--font-body); cursor: pointer; }
+        .cal__day--muted { visibility: hidden; cursor: default; }
+        .cal__day:disabled { color: rgba(255, 255, 255, 0.16); cursor: not-allowed; }
+        .cal__day--avail { color: var(--fg); background: var(--panel-2); }
+        .cal__day--avail:hover { background: var(--line); }
+        .cal__day--selected { background: var(--fg); color: var(--bg); font-weight: 600; }
+        .cal__hint { color: var(--fg-faint); font-size: 12.5px; margin: 12px 0 18px; }
+        .period { display: flex; gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 999px; margin: 0 0 22px; }
+        .period__btn { flex: 1; font-family: var(--font-body); font-size: 14px; color: var(--fg-dim); background: transparent; border: none; cursor: pointer; padding: 11px 0; border-radius: 999px; transition: background .2s ease, color .2s ease; }
+        .period__btn:hover { color: var(--fg); }
+        .period__btn.is-active { background: var(--fg); color: var(--bg); }
+
+        .field { margin-bottom: 14px; }
+        .field label { display: block; font-size: 13px; color: var(--fg-dim); margin-bottom: 7px; }
+        .field input { width: 100%; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; color: var(--fg); font-family: var(--font-body); font-size: 15px; padding: 13px 15px; }
+        .field input:focus { outline: none; border-color: rgba(255, 255, 255, 0.3); }
+        .field--error input { border-color: #e35569; }
+
+        .check { display: flex; align-items: center; gap: 12px; cursor: pointer; margin: 4px 0 2px; user-select: none; }
+        .check input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .check__box { flex: none; width: 22px; height: 22px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); display: flex; align-items: center; justify-content: center; transition: background .18s ease, border-color .18s ease; }
+        .check__box::after { content: ""; width: 11px; height: 6px; border-left: 2px solid var(--bg); border-bottom: 2px solid var(--bg); transform: rotate(-45deg) scale(0); transition: transform .15s ease; margin-top: -3px; }
+        .check input:checked + .check__box { background: var(--fg); border-color: var(--fg); }
+        .check input:checked + .check__box::after { transform: rotate(-45deg) scale(1); }
+        .check input:focus-visible + .check__box { outline: 2px solid var(--fg); outline-offset: 3px; }
+        .check__text { font-size: 14.5px; color: var(--fg-dim); }
+        .check input:checked ~ .check__text { color: var(--fg); }
+
+        .booking__summary { display: flex; justify-content: space-between; gap: 16px; margin: 18px 0 16px; padding: 16px 0 0; border-top: 1px solid var(--line-soft); font-size: 14px; color: var(--fg-dim); }
+        .booking__summary strong { font-family: var(--font-display); color: var(--fg); margin-left: 6px; }
+        .btn--full { width: 100%; justify-content: center; }
+        .form-alert { font-size: 14px; padding: 12px 14px; border-radius: 12px; margin-bottom: 14px; }
+        .form-alert--ok { background: rgba(80, 200, 120, 0.12); color: #7fe0a0; }
+        .form-alert--err { background: rgba(230, 70, 90, 0.12); color: #ff8a9a; }
+
+        /* ---------- Mobile nav ---------- */
+        .nav-toggle { display: none; }
+        @media (max-width: 760px) {
+            .nav-toggle {
+                display: inline-flex; flex-direction: column; justify-content: center; align-items: center;
+                gap: 5px; width: 44px; height: 44px; margin: -8px -8px -8px 0;
+                background: transparent; border: none; cursor: pointer;
+            }
+            .nav-toggle__bar { display: block; width: 22px; height: 2px; background: var(--fg); transition: transform .25s ease, opacity .25s ease; }
+            .navbar.is-open .nav-toggle__bar:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
+            .navbar.is-open .nav-toggle__bar:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); }
+            .nav {
+                position: absolute; top: 100%; left: 0; right: 0;
+                flex-direction: column; align-items: stretch; gap: 0;
+                background: rgba(10, 10, 10, 0.97);
+                backdrop-filter: saturate(140%) blur(14px);
+                -webkit-backdrop-filter: saturate(140%) blur(14px);
+                border-bottom: 1px solid var(--line);
+                padding: 4px 22px 14px;
+                transform: translateY(-10px); opacity: 0; pointer-events: none;
+                transition: opacity .22s ease, transform .22s ease;
+            }
+            .navbar.is-open .nav { opacity: 1; transform: translateY(0); pointer-events: auto; }
+            .nav__link { padding: 15px 2px; font-size: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+            .nav__link:last-child { border-bottom: none; }
+            .nav__link::after { display: none; }
         }
     </style>
 </head>
@@ -339,8 +279,7 @@
         <span class="blob blob--3"></span>
     </div>
     <script>
-    /* Mantém o fundo num fluxo contínuo durante toda a sessão do site:
-       em cada página retoma a animação na fase em que ia (animation-delay negativo). */
+    /* Fundo contínuo durante toda a sessão do site. */
     (function () {
         var KEY = 'mdBgEpoch';
         var now = Date.now();
@@ -358,25 +297,36 @@
                 <span class="navbar__brand-main">Midnight</span>
                 <span class="navbar__brand-sub">Detailing</span>
             </a>
-            <nav class="nav" aria-label="Navegação principal">
+            <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="primary-nav">
+                <span class="nav-toggle__bar" aria-hidden="true"></span>
+                <span class="nav-toggle__bar" aria-hidden="true"></span>
+            </button>
+            <nav class="nav" id="primary-nav" aria-label="Navegação principal">
                 <a class="nav__link nav__link--active" href="/servicos/">Serviços</a>
-                <a class="nav__link" href="/precario-2/">Preçário 2</a>
-                <a class="nav__link" href="/#sobre">Sobre</a>
+                <a class="nav__link" href="/sobre/">Sobre</a>
             </nav>
         </div>
     </header>
 
     <main id="main">
 
-        {# ===== Page header ===== #}
+        {# ===== Page header + mode toggle ===== #}
         <section class="wrap page-head">
             <span class="eyebrow">Planos &amp; Preços</span>
             <h1 class="page-head__title">Serviços</h1>
             <p class="page-head__intro">
                 Lavagem e detalhe ao domicílio, executados à mão com método e materiais premium.
-                Escolha o segmento da viatura, o plano e os serviços adicionais.
+                Escolha entre os nossos planos ou monte um serviço personalizado.
             </p>
 
+            <div class="mode-toggle" role="group" aria-label="Tipo de serviço">
+                <button type="button" class="mode-toggle__btn is-active" data-mode="packs" aria-pressed="true">Planos</button>
+                <button type="button" class="mode-toggle__btn" data-mode="perso" aria-pressed="false">Personalizado</button>
+            </div>
+        </section>
+
+        {# ===== Segmento de viatura (partilhado, sempre visível) ===== #}
+        <section class="wrap segments-section">
             <div class="segments" role="group" aria-label="Segmento de viatura">
                 <button type="button" class="segment is-selected" aria-pressed="true">Ligeiro</button>
                 <button type="button" class="segment" aria-pressed="false">Super desportivo</button>
@@ -385,80 +335,184 @@
             <p class="segments__note">Os preços ajustam-se ao segmento da viatura selecionado.</p>
         </section>
 
-        {# ===== Wash plans ===== #}
-        <section class="wrap section" aria-labelledby="planos-titulo">
-            <p class="section__label">Passo 01</p>
-            <h2 class="section__title" id="planos-titulo">Planos de lavagem</h2>
+        {# ============================================================= #}
+        {# ===== PLANOS ===== #}
+        {# ============================================================= #}
+        <div class="mode-panel" id="packs-panel">
+            <section class="wrap section" aria-labelledby="planos-titulo">
+                <p class="section__label">Lavagem</p>
+                <h2 class="section__title" id="planos-titulo">Planos de lavagem</h2>
 
-            <div class="plans">
+                <div class="plans">
+                    <article class="plan" data-plan="simples">
+                        <h3 class="plan__name">Pack Simples</h3>
+                        <p class="plan__price">€40</p>
+                        <p class="plan__duration">1 h 30 min</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
 
-                {# ---- Pack Simples ---- #}
-                <article class="plan" data-plan="simples">
-                    <h3 class="plan__name">Pack Simples</h3>
-                    <p class="plan__price">€40</p>
-                    <p class="plan__duration">1 h 30 min</p>
-                    <hr class="plan__divider">
-                    <ul class="plan__list">
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
-                    </ul>
-                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
-                </article>
+                    <article class="plan plan--featured" data-plan="avancado">
+                        <span class="plan__badge">Mais popular</span>
+                        <h3 class="plan__name">Pack Avançado</h3>
+                        <p class="plan__price">€60</p>
+                        <p class="plan__duration">2 h</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Método 2 Baldes</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Passagem detalhada com pincel nos cantos e grelhas</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Condicionador de pneus</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Batentes</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
 
-                {# ---- Pack Avançado ---- #}
-                <article class="plan plan--featured" data-plan="avancado">
-                    <span class="plan__badge">Mais popular</span>
-                    <h3 class="plan__name">Pack Avançado</h3>
-                    <p class="plan__price">€60</p>
-                    <p class="plan__duration">2 h</p>
-                    <hr class="plan__divider">
-                    <ul class="plan__list">
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Método 2 Baldes</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Passagem detalhada com pincel nos cantos e grelhas</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Condicionador de pneus</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Batentes</li>
-                    </ul>
-                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
-                </article>
+                    <article class="plan" data-plan="exclusivo">
+                        <h3 class="plan__name">Pack Exclusivo</h3>
+                        <p class="plan__price">€90</p>
+                        <p class="plan__duration">3 h</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Método 2 Baldes</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Passagem detalhada com pincel nos cantos e grelhas</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Condicionador de pneus</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Batentes</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Bancos/Estofos</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de pele + condicionador</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Descalcificação de Vidros</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Hidratação de plásticos e tablier</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
+                </div>
+            </section>
+        </div>
 
-                {# ---- Pack Exclusivo ---- #}
-                <article class="plan" data-plan="exclusivo">
-                    <h3 class="plan__name">Pack Exclusivo</h3>
-                    <p class="plan__price">€90</p>
-                    <p class="plan__duration">3 h</p>
-                    <hr class="plan__divider">
-                    <ul class="plan__list">
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem + Lavagem Manual</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Método 2 Baldes</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Secagem com toalha</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração completa do interior</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial Interiores</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Passagem detalhada com pincel nos cantos e grelhas</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros e Espelhos</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Condicionador de pneus</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Batentes</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Bancos/Estofos</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de pele + condicionador</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Descalcificação de Vidros</li>
-                        <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Hidratação de plásticos e tablier</li>
-                    </ul>
-                    <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
-                </article>
+        {# ============================================================= #}
+        {# ===== PERSONALIZADO ===== #}
+        {# ============================================================= #}
+        <div class="mode-panel" id="perso-panel" hidden>
 
-            </div>
-        </section>
+            {# ----- Interior ----- #}
+            <section class="wrap section" aria-labelledby="interior-titulo">
+                <p class="section__label">Interior</p>
+                <h2 class="section__title" id="interior-titulo">Detalhe interior</h2>
 
-        {# ===== Add-on services ===== #}
+                <div class="plans">
+                    <article class="plan" data-plan="interior-basic" data-group="interior">
+                        <h3 class="plan__name">Interior Basic</h3>
+                        <p class="plan__price">€20</p>
+                        <p class="plan__duration">25–35 min</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
+
+                    <article class="plan" data-plan="interior-avancado" data-group="interior">
+                        <h3 class="plan__name">Interior Avançado</h3>
+                        <p class="plan__price">€25</p>
+                        <p class="plan__duration">30–40 min</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial e pincel nos cantos e grelhas</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Pedais</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
+
+                    <article class="plan" data-plan="interior-top" data-group="interior">
+                        <h3 class="plan__name">Interior Top</h3>
+                        <p class="plan__price">€30</p>
+                        <p class="plan__duration">45–60 min</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Aspiração</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Superficial e pincel nos cantos e grelhas</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Batentes</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Pedais</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza de Vidros</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Cera de Abelha</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
+                </div>
+            </section>
+
+            {# ----- Exterior ----- #}
+            <section class="wrap section" aria-labelledby="exterior-titulo">
+                <p class="section__label">Exterior</p>
+                <h2 class="section__title" id="exterior-titulo">Detalhe exterior</h2>
+
+                <div class="plans">
+                    <article class="plan" data-plan="exterior-basic" data-group="exterior">
+                        <h3 class="plan__name">Exterior Basic</h3>
+                        <p class="plan__price">€20</p>
+                        <p class="plan__duration">20–30 min</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Lavagem manual (carro todo + jantes)</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Enxaguamento</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
+
+                    <article class="plan" data-plan="exterior-avancado" data-group="exterior">
+                        <h3 class="plan__name">Exterior Avançado</h3>
+                        <p class="plan__price">€25</p>
+                        <p class="plan__duration">25–35 min</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Lavagem manual (carro todo + jantes)</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Enxaguamento</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
+
+                    <article class="plan" data-plan="exterior-top" data-group="exterior">
+                        <h3 class="plan__name">Exterior Top</h3>
+                        <p class="plan__price">€30</p>
+                        <p class="plan__duration">45–60 min</p>
+                        <hr class="plan__divider">
+                        <ul class="plan__list">
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Pré-Lavagem</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Lavagem manual (carro todo + jantes)</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Enxaguamento</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Vidros e Espelhos</li>
+                            <li class="plan__item"><svg class="plan__check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4L19 6" stroke-linecap="round" stroke-linejoin="round"/></svg>Limpeza Jantes e Pneus</li>
+                        </ul>
+                        <button type="button" class="plan__cta" aria-pressed="false"><span class="plan__cta-label">Selecionar</span> <span class="arrow" aria-hidden="true">↗</span></button>
+                    </article>
+                </div>
+            </section>
+
+        </div>
+
+        {# ===== Serviços adicionais (sempre visível, em baixo) ===== #}
         <section class="wrap section" aria-labelledby="adicionais-titulo">
-            <p class="section__label">Passo 02</p>
+            <p class="section__label">Extras</p>
             <h2 class="section__title" id="adicionais-titulo">Serviços adicionais</h2>
 
             <div class="addons">
@@ -467,148 +521,243 @@
                         <h3 class="addon__name">Descalcificação de Vidros</h3>
                         <span class="addon__price">€20</span>
                     </div>
-                    <p class="addon__desc">
-                        Remoção de calcário e manchas de água incrustadas nos vidros, devolvendo transparência.
-                    </p>
+                    <p class="addon__desc">Remoção de calcário e manchas de água incrustadas nos vidros, devolvendo transparência.</p>
                 </article>
-
                 <article class="addon" role="button" tabindex="0" aria-pressed="false" data-addon="brilho-pneus">
                     <div class="addon__head">
                         <h3 class="addon__name">Brilho Pneus</h3>
                         <span class="addon__price">€10</span>
                     </div>
-                    <p class="addon__desc">
-                        Dressing que devolve o aspeto preto e acetinado aos pneus.
-                    </p>
+                    <p class="addon__desc">Dressing que devolve o aspeto preto e acetinado aos pneus.</p>
                 </article>
-
                 <article class="addon" role="button" tabindex="0" aria-pressed="false">
                     <div class="addon__head">
                         <h3 class="addon__name">Cera</h3>
                         <span class="addon__price">€10</span>
                     </div>
-                    <p class="addon__desc">
-                        Camada de cera que realça o brilho e dá proteção temporária à pintura.
-                    </p>
+                    <p class="addon__desc">Camada de cera que realça o brilho e dá proteção temporária à pintura.</p>
                 </article>
-
                 <article class="addon" role="button" tabindex="0" aria-pressed="false">
                     <div class="addon__head">
                         <h3 class="addon__name">Cera de Abelha (Interior)</h3>
                         <span class="addon__price">€10</span>
                     </div>
-                    <p class="addon__desc">
-                        Tratamento com cera de abelha para nutrir e proteger as superfícies interiores.
-                    </p>
+                    <p class="addon__desc">Tratamento com cera de abelha para nutrir e proteger as superfícies interiores.</p>
                 </article>
-
                 <article class="addon" role="button" tabindex="0" aria-pressed="false">
                     <div class="addon__head">
                         <h3 class="addon__name">Removedor de Odor</h3>
                         <span class="addon__price">€5</span>
                     </div>
-                    <p class="addon__desc">
-                        Eliminação de odores ligeiros no habitáculo.
-                    </p>
+                    <p class="addon__desc">Eliminação de odores ligeiros no habitáculo.</p>
                 </article>
-
                 <article class="addon" role="button" tabindex="0" aria-pressed="false">
                     <div class="addon__head">
                         <h3 class="addon__name">Lavagem Rodas Profunda</h3>
                         <span class="addon__price">€20</span>
                     </div>
-                    <p class="addon__desc">
-                        Removemos as rodas e lavamos tudo por dentro a fundo — jantes, travões,
-                        remoção de ferrugem e sujidade acumulada.
-                    </p>
+                    <p class="addon__desc">Removemos as rodas e lavamos tudo por dentro a fundo: jantes, travões, remoção de ferrugem e sujidade acumulada.</p>
                 </article>
             </div>
         </section>
 
-        {# ===== CTA ===== #}
-        <section class="wrap cta-row">
-            <a class="btn" href="/#contacto">Marcar agora <span aria-hidden="true">↗</span></a>
+        {# ===== Carrinho / Resumo ===== #}
+        <section class="wrap cart-section" aria-labelledby="cart-title">
+            <div class="cart" id="cart">
+                <div class="cart__head">
+                    <h2 class="cart__title" id="cart-title">Resumo</h2>
+                    <span class="cart__seg" id="cart-seg">Ligeiro</span>
+                </div>
+                <ul class="cart__items" id="cart-items"></ul>
+                <p class="cart__empty" id="cart-empty">Seleciona um serviço acima para adicionar ao resumo.</p>
+                <div class="cart__foot">
+                    <div class="cart__total">Total <strong id="cart-total">€0</strong></div>
+                    <button class="btn" id="cart-marcar" type="button" disabled>Marcar <span aria-hidden="true">↗</span></button>
+                </div>
+            </div>
         </section>
 
     </main>
 
+    {# ===== Modal de marcação ===== #}
+    <div class="booking" id="booking" hidden>
+        <div class="booking__backdrop" data-close></div>
+        <div class="booking__dialog" role="dialog" aria-modal="true" aria-labelledby="booking-title">
+            <button class="booking__close" type="button" data-close aria-label="Fechar">&times;</button>
+            <h2 class="booking__title" id="booking-title">Marcar</h2>
+
+            <div class="cal">
+                <div class="cal__head">
+                    <button class="cal__nav" id="cal-prev" type="button" aria-label="Mês anterior">&lsaquo;</button>
+                    <span class="cal__month" id="cal-month"></span>
+                    <button class="cal__nav" id="cal-next" type="button" aria-label="Mês seguinte">&rsaquo;</button>
+                </div>
+                <div class="cal__weekdays" aria-hidden="true">
+                    <div class="cal__wd">Seg</div><div class="cal__wd">Ter</div><div class="cal__wd">Qua</div><div class="cal__wd">Qui</div><div class="cal__wd">Sex</div><div class="cal__wd">Sáb</div><div class="cal__wd">Dom</div>
+                </div>
+                <div class="cal__grid" id="cal-grid"></div>
+            </div>
+            <p class="cal__hint">Disponível apenas aos sábados e domingos.</p>
+
+            <div class="period" role="group" aria-label="Período do dia">
+                <button type="button" class="period__btn is-active" data-period="Manhã" aria-pressed="true">Manhã</button>
+                <button type="button" class="period__btn" data-period="Tarde" aria-pressed="false">Tarde</button>
+            </div>
+
+            <form class="booking__form" id="booking-form" novalidate>
+                {% csrf_token %}
+                <div class="field" data-field="nome">
+                    <label for="bk-nome">Nome</label>
+                    <input id="bk-nome" name="nome" type="text" autocomplete="name" required>
+                </div>
+                <div class="field" data-field="telefone">
+                    <label for="bk-tel">Telemóvel <span style="color:var(--ink-3,#9a9a9a); font-weight:normal;">(opcional)</span></label>
+                    <input id="bk-tel" name="telefone" type="tel" autocomplete="tel" placeholder="+351 ...">
+                </div>
+                <div class="field" data-field="email">
+                    <label for="bk-email">Email</label>
+                    <input id="bk-email" name="email" type="email" autocomplete="email" placeholder="o-teu@email.com" required>
+                </div>
+                <div class="field" data-field="zona">
+                    <label for="bk-zona">Zona</label>
+                    <input id="bk-zona" name="zona" type="text" placeholder="Ex.: Lisboa, Sintra, Cascais..." required>
+                </div>
+
+                <label class="check">
+                    <input type="checkbox" id="bk-recolha" name="recolha">
+                    <span class="check__box" aria-hidden="true"></span>
+                    <span class="check__text">Recolha do carro em casa</span>
+                </label>
+
+                <div class="booking__summary">
+                    <span id="bk-date">Escolhe uma data</span>
+                    <span>Total <strong id="bk-total">€0</strong></span>
+                </div>
+
+                <div class="form-alert form-alert--ok" id="bk-ok" hidden>Marcação enviada! Entraremos em contacto em breve. Enviámos-te um email de confirmação. <strong>Verifica a pasta de Spam!</strong></div>
+                <div class="form-alert form-alert--err" id="bk-err" hidden>Não foi possível enviar. Verifica os campos e tenta novamente.</div>
+
+                <button class="btn btn--full" type="submit" id="bk-submit">Marcar e concluir!</button>
+            </form>
+        </div>
+    </div>
+
     <script>
     (function () {
-        // ----- Per-segment pricing -----
-        const PRICING = {
+        const setPlanSelected = (p, on) => {
+            p.classList.toggle('is-selected', on);
+            const label = p.querySelector('.plan__cta-label');
+            const arrow = p.querySelector('.plan__cta .arrow');
+            const cta = p.querySelector('.plan__cta');
+            if (label) label.textContent = on ? 'Selecionado' : 'Selecionar';
+            if (arrow) arrow.textContent = on ? '✓' : '↗';
+            if (cta) cta.setAttribute('aria-pressed', String(on));
+        };
+
+        let currentMode = 'packs';
+
+        /* ===================== CARRINHO / RESUMO ===================== */
+        const cartItemsEl = document.getElementById('cart-items');
+        const cartEmptyEl = document.getElementById('cart-empty');
+        const cartTotalEl = document.getElementById('cart-total');
+        const cartSegEl = document.getElementById('cart-seg');
+        const cartMarcarBtn = document.getElementById('cart-marcar');
+        let cartItems = [];
+        let cartTotal = 0;
+
+        const parsePrice = (t) => {
+            const m = (t || '').replace(',', '.').match(/\d+(\.\d+)?/);
+            return m ? parseFloat(m[0]) : 0;
+        };
+        const currentSegment = () => {
+            const s = document.querySelector('.segments .segment.is-selected');
+            return s ? s.textContent.trim() : 'Ligeiro';
+        };
+
+        function buildCart() {
+            const items = [];
+            if (currentMode === 'packs') {
+                const plan = packsPanel.querySelector('.plan.is-selected');
+                if (plan) items.push({ nome: plan.querySelector('.plan__name').textContent.trim(), preco: parsePrice(plan.querySelector('.plan__price').textContent) });
+            } else {
+                persoPanel.querySelectorAll('.plan.is-selected').forEach((p) => {
+                    items.push({ nome: p.querySelector('.plan__name').textContent.trim(), preco: parsePrice(p.querySelector('.plan__price').textContent) });
+                });
+            }
+            addons.forEach((a) => {
+                if (a.classList.contains('is-selected') && a.style.display !== 'none') {
+                    items.push({ nome: a.querySelector('.addon__name').textContent.trim(), preco: parsePrice(a.querySelector('.addon__price').textContent) });
+                }
+            });
+
+            cartItems = items;
+            cartTotal = items.reduce((sum, i) => sum + i.preco, 0);
+
+            cartSegEl.textContent = currentSegment();
+            cartItemsEl.innerHTML = '';
+            items.forEach((i) => {
+                const li = document.createElement('li');
+                li.className = 'cart__item';
+                const a = document.createElement('span');
+                a.className = 'cart__item-name';
+                a.textContent = i.nome;
+                const b = document.createElement('span');
+                b.textContent = '€' + i.preco;
+                li.appendChild(a); li.appendChild(b);
+                cartItemsEl.appendChild(li);
+            });
+            cartEmptyEl.hidden = items.length > 0;
+            cartTotalEl.textContent = '€' + cartTotal;
+            cartMarcarBtn.disabled = items.length === 0;
+        }
+
+        /* ===================== PLANOS (packs) ===================== */
+        const packsPanel = document.getElementById('packs-panel');
+        const PACKS_PRICING = {
             'Ligeiro':          { simples: 40, avancado: 60,  exclusivo: 90 },
             'Super desportivo': { simples: 80, avancado: 100, exclusivo: 150 },
             'SUV':              { simples: 45, avancado: 70,  exclusivo: 105 },
         };
-
-        const plansGrid = document.querySelector('.plans');
-        const planEls = {
-            simples:   document.querySelector('.plan[data-plan="simples"]'),
-            avancado:  document.querySelector('.plan[data-plan="avancado"]'),
-            exclusivo: document.querySelector('.plan[data-plan="exclusivo"]'),
+        const packsPlanEls = {
+            simples:   packsPanel.querySelector('.plan[data-plan="simples"]'),
+            avancado:  packsPanel.querySelector('.plan[data-plan="avancado"]'),
+            exclusivo: packsPanel.querySelector('.plan[data-plan="exclusivo"]'),
         };
 
-        const resetPlan = (p) => {
-            if (!p) return;
-            p.classList.remove('is-selected');
-            const label = p.querySelector('.plan__cta-label');
-            const arrow = p.querySelector('.plan__cta .arrow');
-            const cta = p.querySelector('.plan__cta');
-            if (label) label.textContent = 'Selecionar';
-            if (arrow) arrow.textContent = '↗';
-            if (cta) cta.setAttribute('aria-pressed', 'false');
-        };
-
-        const applyPricing = (segment) => {
-            const prices = PRICING[segment];
+        const applyPacksPricing = (segment) => {
+            const prices = PACKS_PRICING[segment];
             if (!prices) return;
-            let visible = 0;
-            Object.keys(planEls).forEach((key) => {
-                const el = planEls[key];
+            Object.keys(packsPlanEls).forEach((key) => {
+                const el = packsPlanEls[key];
                 if (!el) return;
-                const price = prices[key];
-                if (price == null) {
-                    if (el.classList.contains('is-selected')) resetPlan(el);
-                    el.style.display = 'none';
-                } else {
-                    el.style.display = '';
-                    visible += 1;
-                    const priceEl = el.querySelector('.plan__price');
-                    if (priceEl) priceEl.textContent = '€' + price;
-                }
+                const priceEl = el.querySelector('.plan__price');
+                if (priceEl) priceEl.textContent = '€' + prices[key];
             });
-            if (plansGrid) plansGrid.classList.toggle('plans--count-2', visible === 2);
         };
 
-        // ----- Car segment: single select -----
-        const segments = Array.from(document.querySelectorAll('.segment'));
-        segments.forEach((btn) => {
-            btn.addEventListener('click', () => {
-                segments.forEach((b) => {
-                    const on = b === btn;
-                    b.classList.toggle('is-selected', on);
-                    b.setAttribute('aria-pressed', String(on));
-                });
-                applyPricing(btn.textContent.trim());
+        const packsPlans = Array.from(packsPanel.querySelectorAll('.plan'));
+        packsPlans.forEach((plan) => {
+            plan.addEventListener('click', () => {
+                packsPlans.forEach((p) => setPlanSelected(p, p === plan));
+                updateAddonAvailability();
+                buildCart();
             });
         });
 
-        // Apply pricing for the segment selected by default (Ligeiro).
-        const preselected = document.querySelector('.segment.is-selected');
-        applyPricing(preselected ? preselected.textContent.trim() : 'Ligeiro');
-
-        // ----- Add-ons: multi select -----
-        const addons = Array.from(document.querySelectorAll('.addon'));
-
-        // Serviços que já fazem parte de um plano — escondidos (e desmarcados)
-        // quando esse plano está selecionado, para não serem pagos duas vezes.
+        /* ===================== ADICIONAIS (sempre visíveis) ===================== */
         const ADDON_INCLUDED = {
             'descalcificacao-vidros': ['exclusivo'],
             'brilho-pneus':          ['avancado', 'exclusivo'],
         };
+        const addons = Array.from(document.querySelectorAll('.addon'));
 
-        const updateAddonAvailability = () => {
-            const selected = document.querySelector('.plan.is-selected');
+        function updateAddonAvailability() {
+            // Só escondemos no modo Planos, conforme o plano selecionado.
+            if (currentMode !== 'packs') {
+                addons.forEach((a) => { a.style.display = ''; });
+                return;
+            }
+            const selected = packsPanel.querySelector('.plan.is-selected');
             const planKey = selected ? selected.getAttribute('data-plan') : null;
             addons.forEach((addon) => {
                 const slug = addon.getAttribute('data-addon');
@@ -623,7 +772,7 @@
                     addon.style.display = '';
                 }
             });
-        };
+        }
 
         const toggleAddon = (addon) => {
             const on = !addon.classList.contains('is-selected');
@@ -631,34 +780,257 @@
             addon.setAttribute('aria-pressed', String(on));
         };
         addons.forEach((addon) => {
-            addon.addEventListener('click', () => toggleAddon(addon));
+            addon.addEventListener('click', () => { toggleAddon(addon); buildCart(); });
             addon.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggleAddon(addon);
-                }
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleAddon(addon); buildCart(); }
             });
         });
 
-        // ----- Plan: single select -----
-        const plans = Array.from(document.querySelectorAll('.plan'));
-        plans.forEach((plan) => {
+        /* ===================== PERSONALIZADO ===================== */
+        const persoPanel = document.getElementById('perso-panel');
+        const PERSO_BASE = {
+            'interior-basic': 20, 'interior-avancado': 25, 'interior-top': 30,
+            'exterior-basic': 20, 'exterior-avancado': 25, 'exterior-top': 30,
+        };
+        const PERSO_OFFSET = { 'Ligeiro': 0, 'SUV': 5, 'Super desportivo': 15 };
+        const persoPlans = Array.from(persoPanel.querySelectorAll('.plan'));
+
+        const applyPersoPricing = (segment) => {
+            const offset = PERSO_OFFSET[segment] || 0;
+            persoPlans.forEach((el) => {
+                const base = PERSO_BASE[el.getAttribute('data-plan')];
+                if (base == null) return;
+                const priceEl = el.querySelector('.plan__price');
+                if (priceEl) priceEl.textContent = '€' + (base + offset);
+            });
+        };
+
+        // Personalizado: um serviço por grupo (interior / exterior), com des-seleção.
+        persoPlans.forEach((plan) => {
             plan.addEventListener('click', () => {
-                plans.forEach((p) => {
-                    const on = p === plan;
-                    p.classList.toggle('is-selected', on);
-                    const label = p.querySelector('.plan__cta-label');
-                    const arrow = p.querySelector('.plan__cta .arrow');
-                    const cta = p.querySelector('.plan__cta');
-                    if (label) label.textContent = on ? 'Selecionado' : 'Selecionar';
-                    if (arrow) arrow.textContent = on ? '✓' : '↗';
-                    if (cta) cta.setAttribute('aria-pressed', String(on));
+                const group = plan.getAttribute('data-group');
+                const wasSelected = plan.classList.contains('is-selected');
+                persoPlans.forEach((p) => {
+                    if (p.getAttribute('data-group') === group) setPlanSelected(p, false);
                 });
-                updateAddonAvailability();
+                if (!wasSelected) setPlanSelected(plan, true);
+                buildCart();
             });
         });
 
+        /* ===================== SEGMENTO (partilhado) ===================== */
+        const segments = Array.from(document.querySelectorAll('.segments .segment'));
+        segments.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                segments.forEach((b) => {
+                    const on = b === btn;
+                    b.classList.toggle('is-selected', on);
+                    b.setAttribute('aria-pressed', String(on));
+                });
+                const seg = btn.textContent.trim();
+                applyPacksPricing(seg);
+                applyPersoPricing(seg);
+                buildCart();
+            });
+        });
+        const preselected = document.querySelector('.segments .segment.is-selected');
+        const seg0 = preselected ? preselected.textContent.trim() : 'Ligeiro';
+        applyPacksPricing(seg0);
+        applyPersoPricing(seg0);
         updateAddonAvailability();
+        buildCart();
+
+        /* ===================== MODE TOGGLE ===================== */
+        const modeBtns = Array.from(document.querySelectorAll('.mode-toggle__btn'));
+        modeBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                currentMode = btn.getAttribute('data-mode');
+                const packs = currentMode === 'packs';
+                modeBtns.forEach((b) => {
+                    const on = b === btn;
+                    b.classList.toggle('is-active', on);
+                    b.setAttribute('aria-pressed', String(on));
+                });
+                packsPanel.hidden = !packs;
+                persoPanel.hidden = packs;
+                updateAddonAvailability();
+                buildCart();
+            });
+        });
+
+        /* ===================== MARCAÇÃO (calendário + envio) ===================== */
+        const booking = document.getElementById('booking');
+        const calGrid = document.getElementById('cal-grid');
+        const calMonth = document.getElementById('cal-month');
+        const calPrev = document.getElementById('cal-prev');
+        const calNext = document.getElementById('cal-next');
+        const bkDateEl = document.getElementById('bk-date');
+        const bkTotalEl = document.getElementById('bk-total');
+        const bkForm = document.getElementById('booking-form');
+        const bkOk = document.getElementById('bk-ok');
+        const bkErr = document.getElementById('bk-err');
+        const bkSubmit = document.getElementById('bk-submit');
+
+        const MONTHS = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+        const WEEKDAYS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        let viewY = today.getFullYear();
+        let viewM = today.getMonth();
+        let selectedDate = null;
+        let selectedPeriod = 'Manhã';
+
+        const periodBtns = Array.from(document.querySelectorAll('.period__btn'));
+        periodBtns.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                selectedPeriod = btn.getAttribute('data-period');
+                periodBtns.forEach((b) => {
+                    const on = b === btn;
+                    b.classList.toggle('is-active', on);
+                    b.setAttribute('aria-pressed', String(on));
+                });
+            });
+        });
+
+        const pad = (n) => (n < 10 ? '0' + n : '' + n);
+        const ymd = (d) => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+        const human = (d) => pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+
+        function renderCal() {
+            calMonth.textContent = MONTHS[viewM] + ' ' + viewY;
+            calGrid.innerHTML = '';
+            const first = new Date(viewY, viewM, 1);
+            const offset = (first.getDay() + 6) % 7; // semana começa à 2ª feira
+            for (let i = 0; i < offset; i++) {
+                const blank = document.createElement('div');
+                blank.className = 'cal__day cal__day--muted';
+                calGrid.appendChild(blank);
+            }
+            const days = new Date(viewY, viewM + 1, 0).getDate();
+            for (let d = 1; d <= days; d++) {
+                const date = new Date(viewY, viewM, d);
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'cal__day';
+                btn.textContent = d;
+                const dow = date.getDay();
+                const isWeekend = dow === 0 || dow === 6;
+                const isPast = date < today;
+                if (!isWeekend || isPast) {
+                    btn.disabled = true;
+                } else {
+                    btn.classList.add('cal__day--avail');
+                    if (selectedDate && ymd(selectedDate) === ymd(date)) btn.classList.add('cal__day--selected');
+                    btn.addEventListener('click', () => {
+                        selectedDate = date;
+                        bkDateEl.textContent = WEEKDAYS[dow] + ', ' + human(date);
+                        renderCal();
+                    });
+                }
+                calGrid.appendChild(btn);
+            }
+            calPrev.disabled = (viewY === today.getFullYear() && viewM === today.getMonth());
+        }
+        calPrev.addEventListener('click', () => { if (viewM === 0) { viewM = 11; viewY--; } else { viewM--; } renderCal(); });
+        calNext.addEventListener('click', () => { if (viewM === 11) { viewM = 0; viewY++; } else { viewM++; } renderCal(); });
+
+        const openBooking = () => {
+            if (cartItems.length === 0) return;
+            bkTotalEl.textContent = '€' + cartTotal;
+            bkOk.hidden = true; bkErr.hidden = true;
+            renderCal();
+            booking.hidden = false;
+            document.body.style.overflow = 'hidden';
+        };
+        const closeBooking = () => { booking.hidden = true; document.body.style.overflow = ''; };
+        cartMarcarBtn.addEventListener('click', openBooking);
+        booking.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeBooking));
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !booking.hidden) closeBooking(); });
+
+        const csrfToken = () => {
+            const el = bkForm.querySelector('[name=csrfmiddlewaretoken]');
+            return el ? el.value : '';
+        };
+
+        bkForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            bkOk.hidden = true; bkErr.hidden = true;
+            bkForm.querySelectorAll('.field').forEach((f) => f.classList.remove('field--error'));
+
+            const nome = bkForm.nome.value.trim();
+            const telefone = bkForm.telefone.value.trim();
+            const email = bkForm.email.value.trim();
+            const zona = bkForm.zona.value.trim();
+            let bad = false;
+            if (!selectedDate) { bkErr.textContent = 'Escolhe uma data (sábado ou domingo).'; bkErr.hidden = false; bad = true; }
+            [['nome', nome], ['email', email], ['zona', zona]].forEach(([k, v]) => {
+                if (!v) { const f = bkForm.querySelector('[data-field="' + k + '"]'); if (f) f.classList.add('field--error'); bad = true; }
+            });
+            if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                const f = bkForm.querySelector('[data-field="email"]');
+                if (f) f.classList.add('field--error');
+                bad = true;
+            }
+            if (bad) return;
+
+            const payload = {
+                modo: currentMode === 'packs' ? 'Planos' : 'Personalizado',
+                segmento: currentSegment(),
+                itens: cartItems,
+                total: cartTotal,
+                data: ymd(selectedDate),
+                dia_semana: WEEKDAYS[selectedDate.getDay()],
+                periodo: selectedPeriod,
+                nome: nome, telefone: telefone, email: email, zona: zona,
+                recolha: bkForm.recolha.checked,
+            };
+
+            bkSubmit.disabled = true;
+            try {
+                const res = await fetch('/api/agendar/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrfToken() },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(payload),
+                });
+                const data = await res.json().catch(() => ({}));
+                if (res.ok && data.ok) {
+                    bkOk.hidden = false;
+                    bkForm.reset();
+                    selectedDate = null;
+                    bkDateEl.textContent = 'Escolhe uma data';
+                    renderCal();
+                    selectedPeriod = 'Manhã';
+                    periodBtns.forEach((b) => {
+                        const on = b.getAttribute('data-period') === 'Manhã';
+                        b.classList.toggle('is-active', on);
+                        b.setAttribute('aria-pressed', String(on));
+                    });
+                } else {
+                    bkErr.textContent = 'Não foi possível enviar. Verifica os campos e tenta novamente.';
+                    bkErr.hidden = false;
+                }
+            } catch (_) {
+                bkErr.textContent = 'Erro de ligação. Tenta novamente.';
+                bkErr.hidden = false;
+            } finally {
+                bkSubmit.disabled = false;
+            }
+        });
+
+        /* ===================== MOBILE NAV ===================== */
+        const navbar = document.querySelector('.navbar');
+        const navToggle = navbar && navbar.querySelector('.nav-toggle');
+        if (navToggle) {
+            const setNavOpen = (open) => {
+                navbar.classList.toggle('is-open', open);
+                navToggle.setAttribute('aria-expanded', String(open));
+                navToggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+            };
+            navToggle.addEventListener('click', () => setNavOpen(!navbar.classList.contains('is-open')));
+            navbar.querySelectorAll('.nav__link').forEach((link) => {
+                link.addEventListener('click', () => setNavOpen(false));
+            });
+        }
     })();
     </script>
 </body>

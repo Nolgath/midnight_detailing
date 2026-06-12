@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="supported-color-schemes" content="dark">
+    <title>Marcação recebida</title>
+</head>
+<body style="margin:0; padding:0; background-color:#0a0a0a;">
+    <div style="display:none; max-height:0; overflow:hidden;">A tua marcação para {{ dia_txt }} foi recebida. Entraremos em contacto para confirmar.</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#0a0a0a;">
+        <tr>
+            <td align="center" style="padding:40px 16px;">
+                <table role="presentation" width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px; width:100%;">
+
+                    {# Cabeçalho / marca #}
+                    <tr>
+                        <td align="center" style="padding-bottom:32px;">
+                            <span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:bold; letter-spacing:5px; color:#ffffff; text-transform:uppercase;">Midnight&nbsp;Detailing</span>
+                        </td>
+                    </tr>
+
+                    {# Título #}
+                    <tr>
+                        <td align="center" style="padding-bottom:12px;">
+                            <span style="font-family:Arial,Helvetica,sans-serif; font-size:28px; font-weight:bold; color:#ffffff; letter-spacing:-0.5px;">Marcação recebida ✓</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding-bottom:32px;">
+                            <span style="font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; color:#9a9a9a;">
+                                Olá {{ nome }}, recebemos a tua marcação.<br>
+                                Vamos entrar em contacto para confirmar os detalhes.
+                            </span>
+                        </td>
+                    </tr>
+
+                    {# Cartão de detalhes #}
+                    <tr>
+                        <td style="background-color:#141414; border:1px solid #262626; border-radius:16px; padding:28px;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;">
+                                <tr>
+                                    <td style="font-size:13px; color:#9a9a9a; padding:6px 0;">Data</td>
+                                    <td align="right" style="font-size:13px; color:#ffffff; padding:6px 0; font-weight:bold;">{{ dia_txt }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:13px; color:#9a9a9a; padding:6px 0;">Período</td>
+                                    <td align="right" style="font-size:13px; color:#ffffff; padding:6px 0; font-weight:bold;">{{ periodo|default:"—" }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:13px; color:#9a9a9a; padding:6px 0;">Zona</td>
+                                    <td align="right" style="font-size:13px; color:#ffffff; padding:6px 0; font-weight:bold;">{{ zona }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="font-size:13px; color:#9a9a9a; padding:6px 0 18px;">Recolha ao domicílio</td>
+                                    <td align="right" style="font-size:13px; color:#ffffff; padding:6px 0 18px; font-weight:bold;">{% if recolha %}Sim{% else %}Não{% endif %}</td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" style="border-top:1px solid #262626; padding:18px 0 6px; font-size:11px; font-weight:bold; letter-spacing:2px; text-transform:uppercase; color:#9a9a9a;">Serviços</td>
+                                </tr>
+                                {% for item in itens %}
+                                <tr>
+                                    <td style="font-size:13px; color:#d6d6d6; padding:6px 0;">{{ item.nome }}</td>
+                                    <td align="right" style="font-size:13px; color:#d6d6d6; padding:6px 0; white-space:nowrap;">{{ item.preco }}€</td>
+                                </tr>
+                                {% endfor %}
+
+                                <tr>
+                                    <td style="border-top:1px solid #262626; font-size:15px; font-weight:bold; color:#ffffff; padding:16px 0 0;">Total</td>
+                                    <td align="right" style="border-top:1px solid #262626; font-size:20px; font-weight:bold; color:#ffffff; padding:16px 0 0; white-space:nowrap;">{{ total }}€</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    {# Nota #}
+                    <tr>
+                        <td align="center" style="padding:28px 16px 0;">
+                            <span style="font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:1.6; color:#9a9a9a;">
+                                Esta marcação só fica confirmada após o nosso contacto.<br>
+                                Alguma questão? Responde a este email ou liga-nos.
+                            </span>
+                        </td>
+                    </tr>
+
+                    {# Rodapé #}
+                    <tr>
+                        <td align="center" style="padding:32px 16px 0;">
+                            <span style="font-family:Arial,Helvetica,sans-serif; font-size:11px; letter-spacing:1px; color:#5a5a5a; text-transform:uppercase;">Midnight Detailing · Alverca do Ribatejo · crafted after dark</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

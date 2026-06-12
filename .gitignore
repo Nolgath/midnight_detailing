@@ -41,7 +41,14 @@ midnight-*.jpg
 django-*.jpg
 django-*.png
 
+# Fotos originais (as versões otimizadas vivem em static/img/trabalho/)
+website_images/
+
 # Verification screenshots (local only)
+sobre-*.png
+booking-*.png
+mobile-*.png
+servicos-mobile.png
 navbar.png
 home-*.png
 servicos*.png
