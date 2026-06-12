@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Serviços e Preços · Lavagem e Detalhe Automóvel em Alverca · Midnight Detailing</title>
-    <meta name="description" content="Preços e serviços de lavagem de carros e detalhe automóvel em Alverca do Ribatejo: limpeza interior e exterior, higienização de estofos, polimento e proteção cerâmica. Monta o teu serviço e marca online.">
-    <meta name="keywords" content="preços lavagem carros alverca, detalhe automóvel alverca preços, lavar carro alverca, limpeza estofos carro alverca, polimento alverca, proteção cerâmica alverca">
+    <meta name="description" content="Preços e serviços de lavagem de carros e detalhe automóvel em Alverca do Ribatejo: limpeza interior e exterior ao detalhe e higienização de estofos. Monta o teu serviço e marca online.">
+    <meta name="keywords" content="preços lavagem carros alverca, detalhe automóvel alverca preços, lavar carro alverca, limpeza estofos carro alverca, lavagem interior carro alverca">
     <link rel="canonical" href="{{ SITE_URL }}/servicos/">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0A0A0A">
@@ -239,6 +239,19 @@
         .booking__summary { display: flex; justify-content: space-between; gap: 16px; margin: 18px 0 16px; padding: 16px 0 0; border-top: 1px solid var(--line-soft); font-size: 14px; color: var(--fg-dim); }
         .booking__summary strong { font-family: var(--font-display); color: var(--fg); margin-left: 6px; }
         .btn--full { width: 100%; justify-content: center; }
+
+        /* "Voltar" no modal de marcação — só faz falta no telemóvel */
+        .booking__back { display: none; }
+        @media (max-width: 760px) {
+            .booking__back {
+                display: inline-flex;
+                margin-top: 10px;
+                background: transparent;
+                color: var(--fg);
+                border: 1px solid var(--line);
+            }
+            .booking__back:hover { opacity: 1; border-color: rgba(255, 255, 255, 0.4); }
+        }
         .form-alert { font-size: 14px; padding: 12px 14px; border-radius: 12px; margin-bottom: 14px; }
         .form-alert--ok { background: rgba(80, 200, 120, 0.12); color: #7fe0a0; }
         .form-alert--err { background: rgba(230, 70, 90, 0.12); color: #ff8a9a; }
@@ -620,7 +633,7 @@
                 </div>
                 <div class="field" data-field="zona">
                     <label for="bk-zona">Zona</label>
-                    <input id="bk-zona" name="zona" type="text" placeholder="Ex.: Lisboa, Sintra, Cascais..." required>
+                    <input id="bk-zona" name="zona" type="text" placeholder="Ex.: Alverca, Sobralinho, Vila Franca..." required>
                 </div>
 
                 <label class="check">
@@ -638,6 +651,7 @@
                 <div class="form-alert form-alert--err" id="bk-err" hidden>Não foi possível enviar. Verifica os campos e tenta novamente.</div>
 
                 <button class="btn btn--full" type="submit" id="bk-submit">Marcar e concluir!</button>
+                <a class="btn btn--full booking__back" href="/">Voltar</a>
             </form>
         </div>
     </div>
