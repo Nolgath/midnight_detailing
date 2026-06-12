@@ -1,6 +1,7 @@
 databases:
   - name: midnight-detailing-db
     plan: free
+    region: frankfurt
     databaseName: midnight_detailing
     user: midnight
 
