@@ -112,6 +112,19 @@ body {
 img, svg, video { display: block; max-width: 100%; height: auto; }
 button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
 a { color: inherit; text-decoration: none; }
+
+/* ---------- TOUCH ---------- */
+/* Remove o atraso de ~300ms e o realce azul nativo; garante que o toque
+   é registado em toda a área do elemento (não só no texto/ícone). */
+a, button, label, summary, [role="button"], .btn, .plan, .addon,
+.nav__link, .nav__cta, .nav-toggle, .segment, .mode-toggle__btn,
+.period__btn, .plan__cta, .cal__day, .cal__nav, .fab-wa, .check {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+/* Os filhos (ícones/labels) não devem intercetar o toque do botão-pai. */
+.btn > *, .nav__cta > *, .plan__cta > *, .addon *, .segment > *,
+.period__btn > *, .mode-toggle__btn > * { pointer-events: none; }
 ul { list-style: none; padding: 0; margin: 0; }
 ::selection { background: var(--c-champagne); color: var(--c-black); }
 ::-webkit-scrollbar { width: 10px; }
@@ -1439,4 +1452,39 @@ a.info-card--feature:hover {
 }
 @media (max-width: 720px) {
     .contact--standalone { padding-top: calc(var(--s-9) + var(--s-5)); }
+}
+
+/* ====================================================================
+   PERFORMANCE NO TELEMÓVEL
+   Efeitos contínuos (blur enorme animado, backdrop-filter) são pesados
+   no GPU de telemóveis e causam jank/sensação de lentidão. Aliviamos em
+   ecrãs pequenos sem mudar o aspeto no desktop.
+   ==================================================================== */
+@media (max-width: 880px) {
+    /* O brilho dourado do hero deixa de animar e usa menos blur. */
+    .hero::before { animation: none; filter: blur(28px); }
+    /* Grelha decorativa do hero — pintura desnecessária no telemóvel. */
+    .hero::after { display: none; }
+    /* backdrop-filter no scroll é caro a cada frame; fundo sólido chega. */
+    .navbar.is-scrolled {
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    /* Menu mobile aberto: fundo quase opaco em vez de blur ao vivo. */
+    .nav {
+        background: rgba(10, 10, 10, 0.985);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+}
+
+/* Respeita quem pede menos movimento (acessibilidade + bateria). */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
 }

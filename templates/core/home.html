@@ -63,6 +63,13 @@
 
         a { color: inherit; text-decoration: none; }
 
+        /* Toque: sem atraso de 300ms, sem realce azul, área toda ativa. */
+        a, button, .nav-toggle, .hero__cta, .nav__link {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .hero__cta > *, .nav-toggle > * { pointer-events: none; }
+
         /* ---------- Liquid background ---------- */
         .bg {
             position: fixed;
@@ -109,6 +116,21 @@
         }
         @media (prefers-reduced-motion: reduce) {
             .blob { animation: none; }
+        }
+        /* No telemóvel, três blobs com blur(90px) a animar escala pesam
+           imenso no GPU (jank, bateria, sensação de lentidão). Reduzimos o
+           blur, tiramos a escala da animação e dispensamos um dos blobs. */
+        @media (max-width: 760px) {
+            .blob { filter: blur(45px); }
+            .blob--3 { display: none; }
+            @keyframes drift1 {
+                from { transform: translate(-5vw, -4vh); }
+                to   { transform: translate(12vw, 10vh); }
+            }
+            @keyframes drift2 {
+                from { transform: translate(5vw, -3vh); }
+                to   { transform: translate(-12vw, 9vh); }
+            }
         }
 
         /* ---------- Navbar ---------- */

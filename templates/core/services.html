@@ -57,6 +57,15 @@
 
         a { color: inherit; }
 
+        /* Toque: sem atraso de 300ms, sem realce azul, área toda ativa. */
+        a, button, [role="button"], .plan, .addon, .segment, .mode-toggle__btn,
+        .period__btn, .plan__cta, .cal__day, .cal__nav, .nav-toggle, .check {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .plan__cta > *, .segment > *, .mode-toggle__btn > *, .period__btn > *,
+        .nav-toggle > * { pointer-events: none; }
+
         /* ---------- Liquid background ---------- */
         .bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
         .blob { position: absolute; border-radius: 50%; filter: blur(90px); will-change: transform; }
@@ -79,6 +88,14 @@
         @keyframes drift2 { from { transform: translate(5vw, -3vh) scale(1.12); } to { transform: translate(-16vw, 12vh) scale(0.85); } }
         @keyframes drift3 { from { transform: translate(0, 5vh) scale(1); } to { transform: translate(13vw, -15vh) scale(1.32); } }
         @media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
+        /* No telemóvel, três blur(90px) animados a escala enquanto se usa o
+           preçário deixam o GPU saturado (toque lento). Aliviamos aqui. */
+        @media (max-width: 760px) {
+            .blob { filter: blur(45px); }
+            .blob--3 { display: none; }
+            @keyframes drift1 { from { transform: translate(-5vw, -4vh); } to { transform: translate(12vw, 10vh); } }
+            @keyframes drift2 { from { transform: translate(5vw, -3vh); } to { transform: translate(-12vw, 9vh); } }
+        }
         main { position: relative; z-index: 1; }
 
         /* ---------- Navbar ---------- */
@@ -88,6 +105,15 @@
             backdrop-filter: saturate(140%) blur(14px);
             -webkit-backdrop-filter: saturate(140%) blur(14px);
             border-bottom: 1px solid var(--line);
+        }
+        /* backdrop-filter numa navbar sticky recompõe a cada scroll: caro no
+           telemóvel. Fundo quase opaco dá o mesmo efeito sem o custo. */
+        @media (max-width: 760px) {
+            .navbar {
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
         }
         .navbar__inner { max-width: 1280px; margin: 0 auto; padding: 22px 40px; display: flex; align-items: center; justify-content: space-between; }
         .navbar__brand { display: inline-flex; align-items: baseline; gap: 8px; text-decoration: none; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.02em; }

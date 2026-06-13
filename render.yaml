@@ -9,7 +9,7 @@ services:
   - type: web
     name: midnight-detailing
     runtime: python
-    plan: free
+    plan: standard
     region: frankfurt
     buildCommand: "bash build.sh"
     startCommand: "python manage.py migrate --no-input && python manage.py seed_data && gunicorn midnight.wsgi:application"
